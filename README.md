@@ -28,3 +28,5 @@ Or via CLI:
 npm i -g vercel
 vercel
 ```
+
+_Last update: 2026-05-28_

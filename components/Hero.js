@@ -45,7 +45,12 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
-          <div className="hero__photo" role="img" aria-label="Plate of flame-grilled lamb chops" />
+          <div
+            className="hero__photo"
+            role="img"
+            aria-label="Plate of flame-grilled lamb chops"
+            style={{ backgroundImage: "url('/images/hero.jpg')" }}
+          />
           <div className="hero__badge glass">
             <strong>24h</strong>
             <span>marinade</span>
@@ -72,7 +77,10 @@ export default function Hero() {
         .hero__visual { position: relative; aspect-ratio: 4/5; overflow: hidden; }
         .hero__photo {
           position: absolute; inset: 0;
-          background: url('/images/hero.jpg') center/cover no-repeat, #0e0b08;
+          background-color: #0e0b08;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
         .hero__badge {
           position: absolute; bottom: 22px; left: 22px; padding: 16px 22px;

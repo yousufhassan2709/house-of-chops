@@ -12,7 +12,12 @@ export default function Story() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="story__photo" role="img" aria-label="Lamb chops over open flame" />
+          <div
+            className="story__photo"
+            role="img"
+            aria-label="Lamb chops over open flame"
+            style={{ backgroundImage: "url('/images/story.jpg')" }}
+          />
         </motion.div>
 
         <motion.div
@@ -48,7 +53,10 @@ export default function Story() {
         .story__visual { overflow: hidden; aspect-ratio: 1/1; }
         .story__photo {
           position: absolute; inset: 0;
-          background: url('/images/story.jpg') center/cover no-repeat, #0d0a07;
+          background-color: #0d0a07;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
         .story__visual { position: relative; }
         .story__copy h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 16px 0 20px; }

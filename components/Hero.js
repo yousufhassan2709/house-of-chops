@@ -61,14 +61,14 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <style jsx>{`
+      <style jsx global>{`
         .hero {
           position: relative;
           min-height: 100dvh;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 88px 0 64px;
+          padding: 120px 24px 88px;
           overflow: hidden;
           isolation: isolate;
         }
@@ -94,22 +94,27 @@ export default function Hero() {
           display: flex;
           justify-content: center;
         }
-        /* Consistent vertical rhythm — same gap between every element */
+        /* Bulletproof centering — text-align on parent, every child block-centered */
         .hero__copy {
           width: 100%;
           max-width: 640px;
+          margin: 0 auto;
+          text-align: center;
           display: flex;
           flex-direction: column;
           align-items: center;
-          text-align: center;
-          gap: 24px;
         }
-        .hero__eyebrow { display: inline-block; }
+        .hero__copy > * + * { margin-top: 32px; }
+        .hero__eyebrow {
+          display: inline-block;
+        }
         .hero__title {
           font-family: var(--font-serif);
-          font-size: clamp(2.6rem, 9vw, 4.8rem);
+          font-size: clamp(2.6rem, 10vw, 4.6rem);
           line-height: 1.05;
           letter-spacing: -0.015em;
+          text-align: center;
+          width: 100%;
         }
         .hero__title em { color: var(--color-accent); font-style: italic; }
         .hero__sub {
@@ -117,21 +122,26 @@ export default function Hero() {
           color: var(--color-foreground-soft);
           max-width: 34rem;
           line-height: 1.65;
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
         }
         .hero__actions {
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 14px;
           width: 100%;
           max-width: 380px;
+          justify-content: center;
         }
         .hero__actions .btn { width: 100%; }
 
         .hero__rule {
           width: 100%;
           max-width: 420px;
-          padding-top: 24px;
+          padding-top: 28px;
           border-top: 1px solid var(--color-border);
+          text-align: center;
         }
         .hero__rule span {
           font-size: 0.85rem;
@@ -142,13 +152,13 @@ export default function Hero() {
         }
 
         @media (min-width: 540px) {
-          .hero__actions { flex-direction: row; max-width: none; justify-content: center; }
+          .hero__actions { flex-direction: row; max-width: none; }
           .hero__actions .btn { width: auto; }
         }
 
         @media (min-width: 1024px) {
-          .hero { padding: 112px 0 96px; }
-          .hero__copy { gap: 28px; }
+          .hero { padding: 140px 24px 112px; }
+          .hero__copy > * + * { margin-top: 36px; }
         }
       `}</style>
     </section>

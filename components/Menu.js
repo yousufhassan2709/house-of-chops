@@ -22,9 +22,12 @@ export default function Menu() {
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.55, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="card__media" role="img" aria-label={item.name}>
-                {/* Replace with real photo at lib/data.js -> image */}
-                <span className="card__note">{item.image.split('/').pop()}</span>
+              <div
+                className="card__media"
+                role="img"
+                aria-label={item.name}
+                style={{ backgroundImage: `url(${item.image})` }}
+              >
                 {item.tag && <span className="card__tag">{item.tag}</span>}
               </div>
               <div className="card__body">
@@ -55,12 +58,11 @@ export default function Menu() {
         .card:hover { transform: translateY(-6px); border-color: var(--color-accent); }
         .card__media {
           position: relative; aspect-ratio: 16/10;
-          background:
-            radial-gradient(120% 90% at 75% 15%, rgba(199,154,59,0.20), transparent 55%),
-            linear-gradient(160deg, #221c14, #100c08);
-          display: flex; align-items: center; justify-content: center;
+          background-color: #100c08;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
-        .card__note { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(245,241,234,0.28); }
         .card__tag {
           position: absolute; top: 16px; left: 16px; padding: 7px 14px; border-radius: 999px;
           background: var(--color-accent); color: #1A1206; font-size: 0.72rem; font-weight: 600;

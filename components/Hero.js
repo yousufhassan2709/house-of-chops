@@ -45,10 +45,7 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
         >
-          {/* Replace with a real hero photo: /public/images/hero.jpg */}
-          <div className="hero__photo" role="img" aria-label="Plate of flame-grilled lamb chops">
-            <span className="hero__photo-note">Drop hero.jpg here</span>
-          </div>
+          <div className="hero__photo" role="img" aria-label="Plate of flame-grilled lamb chops" />
           <div className="hero__badge glass">
             <strong>24h</strong>
             <span>marinade</span>
@@ -75,14 +72,7 @@ export default function Hero() {
         .hero__visual { position: relative; aspect-ratio: 4/5; overflow: hidden; }
         .hero__photo {
           position: absolute; inset: 0;
-          background:
-            radial-gradient(120% 80% at 70% 20%, rgba(199,154,59,0.22), transparent 55%),
-            linear-gradient(160deg, #211b13, #0e0b08);
-          display: flex; align-items: center; justify-content: center;
-        }
-        .hero__photo-note {
-          font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
-          color: rgba(245,241,234,0.32);
+          background: url('/images/hero.jpg') center/cover no-repeat, #0e0b08;
         }
         .hero__badge {
           position: absolute; bottom: 22px; left: 22px; padding: 16px 22px;

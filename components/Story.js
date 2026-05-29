@@ -12,9 +12,7 @@ export default function Story() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="story__photo" role="img" aria-label="Lamb chops over open flame">
-            <span className="story__note">Drop story.jpg here</span>
-          </div>
+          <div className="story__photo" role="img" aria-label="Lamb chops over open flame" />
         </motion.div>
 
         <motion.div
@@ -50,13 +48,9 @@ export default function Story() {
         .story__visual { overflow: hidden; aspect-ratio: 1/1; }
         .story__photo {
           position: absolute; inset: 0;
-          background:
-            radial-gradient(110% 90% at 30% 80%, rgba(161,98,7,0.28), transparent 55%),
-            linear-gradient(160deg, #241d13, #0d0a07);
-          display: flex; align-items: center; justify-content: center;
+          background: url('/images/story.jpg') center/cover no-repeat, #0d0a07;
         }
         .story__visual { position: relative; }
-        .story__note { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,241,234,0.3); }
         .story__copy h2 { font-size: clamp(2rem, 4.5vw, 3rem); margin: 16px 0 20px; }
         .story__copy p { color: var(--color-muted); margin-bottom: 16px; max-width: 34rem; line-height: 1.75; }
         .story__stats { display: flex; gap: 44px; margin-top: 32px; }

@@ -33,6 +33,20 @@ export default function Navbar() {
         </nav>
 
         <a
+          href={SITE.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav__ig"
+          aria-label={`Follow House of Chops on Instagram (${SITE.instagramHandle})`}
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none" />
+          </svg>
+        </a>
+
+        <a
           href={SITE.talabatUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -120,6 +134,24 @@ export default function Navbar() {
         .nav__links a:hover { color: var(--color-accent); }
 
         .nav__cta { display: none; }
+
+        .nav__ig {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          border-radius: 999px;
+          color: var(--color-foreground);
+          transition: color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease);
+          margin-right: 2px;
+        }
+        .nav__ig:hover { color: var(--color-accent); background: rgba(200, 135, 58, 0.08); }
+        .nav__ig:active { transform: scale(0.94); }
+        .nav__ig:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 2px;
+        }
 
         .nav__burger {
           width: 44px; height: 44px;

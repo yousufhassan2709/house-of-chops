@@ -124,7 +124,6 @@ export default function Contact() {
 
         .footer {
           padding: 48px 0 32px;
-          border-top: 1px solid var(--color-border-soft);
         }
         .footer__inner {
           display: flex;

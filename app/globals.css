@@ -159,6 +159,15 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
 
 section { position: relative; }
 
+/* Faint dotted divider between every section (and above footer) */
+.menu,
+.pillars,
+.story,
+.cta,
+.footer {
+  border-top: 1px dotted rgba(255, 255, 255, 0.14);
+}
+
 /* ============================================================
    Component layout styles — moved here because Next.js styled-jsx
    doesn't reliably apply scoped classes to framer-motion components.

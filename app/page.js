@@ -10,8 +10,8 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
-      <Pillars />
       <Menu />
+      <Pillars />
       <Story />
       <Contact />
     </main>

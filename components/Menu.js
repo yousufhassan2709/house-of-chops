@@ -64,11 +64,11 @@ export default function Menu() {
       </div>
 
       <style jsx>{`
-        .menu { padding: 56px 0 72px; }
+        .menu { padding: 72px 0; }
         .menu__head {
           text-align: center;
           max-width: 36rem;
-          margin: 0 auto 36px;
+          margin: 0 auto 40px;
         }
         .menu__head h2 {
           font-size: clamp(2rem, 5.5vw, 2.8rem);
@@ -166,12 +166,12 @@ export default function Menu() {
         .menu__cta { text-align: center; }
 
         @media (min-width: 760px) {
-          .menu { padding: 80px 0 96px; }
+          .menu { padding: 96px 0; }
           .menu__grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
           .card__media { aspect-ratio: 4 / 3; }
         }
         @media (min-width: 1024px) {
-          .menu { padding: 110px 0 120px; }
+          .menu { padding: 120px 0; }
         }
       `}</style>
     </section>

@@ -56,7 +56,7 @@ export default function Contact() {
       <footer className="footer">
         <div className="container footer__inner">
           <div className="footer__brand">
-            <img src="/images/logo.png" alt="House of Chops" width="56" height="56" />
+            <img src="/images/logo.png" alt="House of Chops" width="120" height="120" />
             <p className="footer__tagline">{SITE.tagline}</p>
           </div>
           <nav className="footer__links" aria-label="Footer">
@@ -73,7 +73,7 @@ export default function Contact() {
       </footer>
 
       <style jsx>{`
-        .cta { padding: 56px 0 72px; }
+        .cta { padding: 72px 0; }
         .cta__panel {
           text-align: center;
           padding: 44px 24px 48px;
@@ -139,7 +139,12 @@ export default function Contact() {
           align-items: center;
           gap: 14px;
         }
-        .footer__brand img { width: 56px; height: 56px; object-fit: contain; }
+        .footer__brand img {
+          width: 110px;
+          height: 110px;
+          object-fit: contain;
+          filter: drop-shadow(0 8px 24px rgba(200, 135, 58, 0.30));
+        }
         .footer__tagline {
           color: var(--color-muted);
           max-width: 22rem;
@@ -177,7 +182,7 @@ export default function Contact() {
           .cta__actions .btn { width: auto; }
         }
         @media (min-width: 760px) {
-          .cta { padding: 90px 0 110px; }
+          .cta { padding: 96px 0; }
           .cta__panel { padding: 64px 48px; }
           .cta__info { grid-template-columns: repeat(3, 1fr); padding-top: 36px; }
           .footer { padding: 60px 0 40px; }

@@ -30,14 +30,6 @@ export default function Hero() {
           animate="show"
           className="hero__copy"
         >
-          <motion.img
-            variants={rise}
-            src="/images/logo.png"
-            alt="House of Chops"
-            className="hero__logo"
-            width="180"
-            height="180"
-          />
           <motion.span variants={rise} className="eyebrow hero__eyebrow">
             Dubai · Delivery Only · Talabat Exclusive
           </motion.span>
@@ -69,17 +61,14 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <a href="#menu" className="hero__scroll" aria-label="Scroll to menu">
-        <span />
-      </a>
-
       <style jsx>{`
         .hero {
           position: relative;
           min-height: 100dvh;
           display: flex;
           align-items: center;
-          padding: 96px 0 80px;
+          justify-content: center;
+          padding: 88px 0 64px;
           overflow: hidden;
           isolation: isolate;
         }
@@ -105,6 +94,7 @@ export default function Hero() {
           display: flex;
           justify-content: center;
         }
+        /* Consistent vertical rhythm — same gap between every element */
         .hero__copy {
           width: 100%;
           max-width: 640px;
@@ -112,21 +102,14 @@ export default function Hero() {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          gap: 0;
+          gap: 24px;
         }
-        .hero__logo {
-          width: clamp(120px, 26vw, 200px);
-          height: auto;
-          margin-bottom: 24px;
-          filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.55));
-        }
-        .hero__eyebrow { margin-bottom: 18px; }
+        .hero__eyebrow { display: inline-block; }
         .hero__title {
           font-family: var(--font-serif);
           font-size: clamp(2.6rem, 9vw, 4.8rem);
           line-height: 1.05;
           letter-spacing: -0.015em;
-          margin-bottom: 22px;
         }
         .hero__title em { color: var(--color-accent); font-style: italic; }
         .hero__sub {
@@ -134,7 +117,6 @@ export default function Hero() {
           color: var(--color-foreground-soft);
           max-width: 34rem;
           line-height: 1.65;
-          margin-bottom: 32px;
         }
         .hero__actions {
           display: flex;
@@ -142,15 +124,14 @@ export default function Hero() {
           gap: 12px;
           width: 100%;
           max-width: 380px;
-          margin-bottom: 36px;
         }
         .hero__actions .btn { width: 100%; }
 
         .hero__rule {
-          padding-top: 20px;
-          border-top: 1px solid var(--color-border);
           width: 100%;
           max-width: 420px;
+          padding-top: 24px;
+          border-top: 1px solid var(--color-border);
         }
         .hero__rule span {
           font-size: 0.85rem;
@@ -160,51 +141,14 @@ export default function Hero() {
           display: block;
         }
 
-        .hero__scroll {
-          position: absolute;
-          bottom: 24px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 36px;
-          height: 56px;
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
-          opacity: 0.55;
-          transition: opacity 0.25s var(--ease);
-        }
-        .hero__scroll:hover { opacity: 1; }
-        .hero__scroll span {
-          width: 22px;
-          height: 36px;
-          border: 1.5px solid var(--color-foreground);
-          border-radius: 12px;
-          position: relative;
-        }
-        .hero__scroll span::after {
-          content: "";
-          position: absolute;
-          top: 8px;
-          left: 50%;
-          width: 2px;
-          height: 6px;
-          background: var(--color-foreground);
-          transform: translateX(-50%);
-          border-radius: 1px;
-          animation: scroll-tick 1.8s var(--ease) infinite;
-        }
-        @keyframes scroll-tick {
-          0%, 100% { transform: translate(-50%, 0); opacity: 1; }
-          50% { transform: translate(-50%, 8px); opacity: 0.2; }
-        }
-
         @media (min-width: 540px) {
           .hero__actions { flex-direction: row; max-width: none; justify-content: center; }
           .hero__actions .btn { width: auto; }
         }
 
         @media (min-width: 1024px) {
-          .hero { padding: 120px 0 100px; }
+          .hero { padding: 112px 0 96px; }
+          .hero__copy { gap: 28px; }
         }
       `}</style>
     </section>

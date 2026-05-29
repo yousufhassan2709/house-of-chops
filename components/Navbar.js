@@ -22,7 +22,7 @@ export default function Navbar() {
     <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="container nav__inner">
         <a href="#top" className="nav__brand" aria-label="House of Chops home">
-          <img src="/images/logo.png" alt="" width="44" height="44" />
+          <img src="/images/logo.png" alt="" width="56" height="56" />
           <span className="nav__wordmark display">House of Chops</span>
         </a>
 
@@ -93,12 +93,17 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           gap: 12px;
-          min-height: 44px;
+          min-height: 56px;
         }
-        .nav__brand img { width: 40px; height: 40px; object-fit: contain; }
+        .nav__brand img {
+          width: 52px;
+          height: 52px;
+          object-fit: contain;
+          filter: drop-shadow(0 4px 14px rgba(200, 135, 58, 0.35));
+        }
         .nav__wordmark {
           font-size: 1.05rem;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.14em;
           color: var(--color-foreground);
           text-transform: uppercase;
         }

@@ -53,11 +53,11 @@ export default function Pillars() {
       </div>
 
       <style jsx>{`
-        .pillars { padding: 72px 0 56px; }
+        .pillars { padding: 72px 0; }
         .pillars__head {
           text-align: center;
           max-width: 36rem;
-          margin: 0 auto 44px;
+          margin: 0 auto 40px;
         }
         .pillars__head h2 {
           font-size: clamp(2rem, 5.5vw, 2.8rem);
@@ -103,11 +103,11 @@ export default function Pillars() {
         }
 
         @media (min-width: 640px) {
-          .pillars { padding: 88px 0 72px; }
+          .pillars { padding: 96px 0; }
           .pillars__grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
         }
         @media (min-width: 1024px) {
-          .pillars { padding: 110px 0 90px; }
+          .pillars { padding: 120px 0; }
           .pillars__grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
           .pillar { padding: 28px 24px; }
         }

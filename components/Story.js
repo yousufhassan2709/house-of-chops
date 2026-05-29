@@ -45,7 +45,7 @@ export default function Story() {
       </div>
 
       <style jsx>{`
-        .story { padding: 56px 0 72px; }
+        .story { padding: 72px 0; }
         .story__inner {
           display: flex;
           flex-direction: column;
@@ -132,6 +132,7 @@ export default function Story() {
         }
         @media (min-width: 1024px) {
           .story { padding: 120px 0; }
+          .story__inner { gap: 72px; }
         }
       `}</style>
     </section>

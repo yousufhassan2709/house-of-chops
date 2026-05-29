@@ -8,7 +8,7 @@ export default function Contact() {
       <section id="contact" className="cta">
         <div className="container">
           <motion.div
-            className="cta__panel glass"
+            className="cta__panel"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
@@ -16,19 +16,38 @@ export default function Contact() {
           >
             <span className="eyebrow">Hungry yet?</span>
             <h2>Your chops are one tap away.</h2>
-            <p>Open daily across Dubai. Order now and we&apos;ll fire them fresh.</p>
+            <p>Open daily across Dubai. Order now and we’ll fire them fresh.</p>
             <div className="cta__actions">
-              <a href={SITE.talabatUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              <a
+                href={SITE.talabatUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+              >
                 Order on Talabat
               </a>
-              <a href={SITE.instagram} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
-                Follow on Instagram
+              <a
+                href={SITE.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost"
+              >
+                Follow {SITE.instagramHandle}
               </a>
             </div>
             <div className="cta__info">
-              <div><span>Hours</span><strong>{SITE.hours}</strong></div>
-              <div><span>Service</span><strong>Delivery only · {SITE.city}</strong></div>
-              <div><span>Call</span><strong>{SITE.phone}</strong></div>
+              <div>
+                <span>Hours</span>
+                <strong>{SITE.hours}</strong>
+              </div>
+              <div>
+                <span>Service</span>
+                <strong>Delivery only · {SITE.city}</strong>
+              </div>
+              <div>
+                <span>Call</span>
+                <strong>{SITE.phone}</strong>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -37,44 +56,135 @@ export default function Contact() {
       <footer className="footer">
         <div className="container footer__inner">
           <div className="footer__brand">
-            <span className="footer__mark">H<span>o</span>C</span>
-            <p>{SITE.tagline}</p>
+            <img src="/images/logo.png" alt="House of Chops" width="56" height="56" />
+            <p className="footer__tagline">{SITE.tagline}</p>
           </div>
-          <div className="footer__links">
+          <nav className="footer__links" aria-label="Footer">
             <a href="#menu">Menu</a>
-            <a href="#story">Our Story</a>
+            <a href="#story">Story</a>
             <a href={SITE.talabatUrl} target="_blank" rel="noopener noreferrer">Talabat</a>
             <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
-          </div>
+          </nav>
         </div>
         <div className="container footer__base">
           <span>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</span>
-          <span>{SITE.city}</span>
+          <span>{SITE.kitchen} · {SITE.city}</span>
         </div>
       </footer>
 
       <style jsx>{`
-        .cta { padding: 70px 0; }
-        .cta__panel { text-align: center; padding: 60px 32px; }
-        .cta__panel h2 { font-size: clamp(2.1rem, 5vw, 3.4rem); margin: 16px 0 14px; }
-        .cta__panel > p { color: var(--color-muted); margin-bottom: 30px; }
-        .cta__actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 44px; }
-        .cta__info { display: flex; gap: 50px; justify-content: center; flex-wrap: wrap; }
-        .cta__info span { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent); display: block; margin-bottom: 8px; }
-        .cta__info strong { font-weight: 400; color: var(--color-foreground); }
+        .cta { padding: 56px 0 72px; }
+        .cta__panel {
+          text-align: center;
+          padding: 44px 24px 48px;
+          background:
+            linear-gradient(180deg, rgba(200, 135, 58, 0.06), rgba(200, 135, 58, 0.02));
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-lg);
+        }
+        .cta__panel h2 {
+          font-size: clamp(2rem, 5.5vw, 3rem);
+          margin: 14px 0 14px;
+        }
+        .cta__panel > p {
+          color: var(--color-muted);
+          margin-bottom: 28px;
+        }
+        .cta__actions {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          align-items: center;
+          margin-bottom: 36px;
+        }
+        .cta__actions .btn { width: 100%; max-width: 320px; }
 
-        .footer { padding: 50px 0 36px; border-top: 1px solid var(--color-border); }
-        .footer__inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; flex-wrap: wrap; }
-        .footer__mark { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; }
-        .footer__mark span { color: var(--color-accent); }
-        .footer__brand p { color: var(--color-muted); margin-top: 10px; max-width: 18rem; font-size: 0.92rem; }
-        .footer__links { display: flex; gap: 28px; flex-wrap: wrap; }
-        .footer__links a { color: var(--color-muted); font-size: 0.92rem; transition: color 0.25s var(--ease); }
+        .cta__info {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 18px;
+          text-align: center;
+          padding-top: 28px;
+          border-top: 1px solid var(--color-border-soft);
+        }
+        .cta__info span {
+          display: block;
+          font-size: 0.7rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: var(--color-accent);
+          margin-bottom: 6px;
+          font-family: var(--font-display);
+        }
+        .cta__info strong {
+          font-weight: 400;
+          color: var(--color-foreground);
+          font-size: 0.95rem;
+        }
+
+        .footer {
+          padding: 48px 0 32px;
+          border-top: 1px solid var(--color-border-soft);
+        }
+        .footer__inner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 24px;
+        }
+        .footer__brand {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 14px;
+        }
+        .footer__brand img { width: 56px; height: 56px; object-fit: contain; }
+        .footer__tagline {
+          color: var(--color-muted);
+          max-width: 22rem;
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: 0.96rem;
+        }
+        .footer__links {
+          display: flex;
+          gap: 22px;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        .footer__links a {
+          color: var(--color-foreground-soft);
+          font-size: 0.92rem;
+          transition: color 0.2s var(--ease);
+        }
         .footer__links a:hover { color: var(--color-accent); }
         .footer__base {
-          display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-          margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--color-border);
-          color: var(--color-muted); font-size: 0.82rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 6px;
+          margin-top: 32px;
+          padding-top: 22px;
+          border-top: 1px solid var(--color-border-soft);
+          color: var(--color-muted);
+          font-size: 0.78rem;
+        }
+
+        @media (min-width: 540px) {
+          .cta__actions { flex-direction: row; justify-content: center; }
+          .cta__actions .btn { width: auto; }
+        }
+        @media (min-width: 760px) {
+          .cta { padding: 90px 0 110px; }
+          .cta__panel { padding: 64px 48px; }
+          .cta__info { grid-template-columns: repeat(3, 1fr); padding-top: 36px; }
+          .footer { padding: 60px 0 40px; }
+          .footer__inner { flex-direction: row; justify-content: space-between; text-align: left; }
+          .footer__brand { flex-direction: row; align-items: center; }
+          .footer__tagline { text-align: left; }
+          .footer__base { flex-direction: row; justify-content: space-between; text-align: left; }
         }
       `}</style>
     </>

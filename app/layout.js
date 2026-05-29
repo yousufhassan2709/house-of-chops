@@ -1,20 +1,29 @@
 import './globals.css';
 
 export const metadata = {
+  metadataBase: new URL('https://house-of-chops.vercel.app'),
   title: 'House of Chops — Premium Lamb Chops, Delivered',
   description:
-    'Flame-kissed, premium lamb chops delivered to your door in Dubai. Order House of Chops on Talabat.',
+    'Dubai’s delivery-only lamb chop specialists. Marinated 24 hours, fired over open flame, packed to arrive hot. Order on Talabat.',
   openGraph: {
     title: 'House of Chops — Premium Lamb Chops, Delivered',
-    description: 'Flame-kissed, premium lamb chops delivered across Dubai.',
+    description: 'Chops Only. That’s the House Rule. Order on Talabat across Dubai.',
     type: 'website',
+    images: ['/images/hero.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'House of Chops — Premium Lamb Chops, Delivered',
+    description: 'Chops Only. That’s the House Rule.',
+    images: ['/images/hero.jpg'],
   },
 };
 
 export const viewport = {
-  themeColor: '#0C0A09',
+  themeColor: '#000000',
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }) {

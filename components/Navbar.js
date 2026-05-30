@@ -88,7 +88,7 @@ export default function Navbar() {
           top: 0; left: 0; right: 0;
           z-index: 50;
           padding: 14px 0;
-          background: #000;
+          background: #020101;
           border-bottom: 1px solid transparent;
           transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
         }

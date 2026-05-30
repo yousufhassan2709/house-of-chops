@@ -22,7 +22,7 @@ export default function Navbar() {
     <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="container nav__inner">
         <a href="#top" className="nav__brand" aria-label="House of Chops home">
-          <img src="/images/logo.png" alt="" width="56" height="56" />
+          <img src="/images/logo.png" alt="" width="72" height="72" />
           <span className="nav__wordmark display">House of Chops</span>
         </a>
 
@@ -32,39 +32,41 @@ export default function Navbar() {
           <a href="#contact">Contact</a>
         </nav>
 
-        <a
-          href={SITE.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nav__ig"
-          aria-label={`Follow House of Chops on Instagram (${SITE.instagramHandle})`}
-        >
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="5" />
-            <circle cx="12" cy="12" r="4" />
-            <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none" />
-          </svg>
-        </a>
+        <div className="nav__end">
+          <a
+            href={SITE.talabatUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary nav__cta"
+          >
+            Order Now
+          </a>
 
-        <a
-          href={SITE.talabatUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-primary nav__cta"
-        >
-          Order Now
-        </a>
+          <a
+            href={SITE.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav__ig"
+            aria-label={`Follow House of Chops on Instagram (${SITE.instagramHandle})`}
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
 
-        <button
-          className="nav__burger"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span style={{ transform: open ? 'translateY(6px) rotate(45deg)' : 'none' }} />
-          <span style={{ opacity: open ? 0 : 1 }} />
-          <span style={{ transform: open ? 'translateY(-6px) rotate(-45deg)' : 'none' }} />
-        </button>
+          <button
+            className="nav__burger"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span style={{ transform: open ? 'translateY(6px) rotate(45deg)' : 'none' }} />
+            <span style={{ opacity: open ? 0 : 1 }} />
+            <span style={{ transform: open ? 'translateY(-6px) rotate(-45deg)' : 'none' }} />
+          </button>
+        </div>
       </div>
 
       <div className={`nav__sheet ${open ? 'nav__sheet--open' : ''}`} role="dialog" aria-modal="true">
@@ -106,11 +108,11 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           gap: 12px;
-          min-height: 56px;
+          min-height: 64px;
         }
         .nav__brand img {
-          width: 52px;
-          height: 52px;
+          width: 68px;
+          height: 68px;
           object-fit: contain;
           filter: drop-shadow(0 4px 14px rgba(200, 135, 58, 0.35));
         }
@@ -134,6 +136,14 @@ export default function Navbar() {
 
         .nav__cta { display: none; }
 
+        /* Right-side group: IG icon sits immediately next to the hamburger */
+        .nav__end {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          margin-right: -4px;
+        }
+
         .nav__ig {
           display: flex;
           align-items: center;
@@ -143,7 +153,6 @@ export default function Navbar() {
           border-radius: 999px;
           color: var(--color-foreground);
           transition: color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease);
-          margin-right: 2px;
         }
         .nav__ig:hover { color: var(--color-accent); background: rgba(200, 135, 58, 0.08); }
         .nav__ig:active { transform: scale(0.94); }
@@ -159,7 +168,6 @@ export default function Navbar() {
           align-items: center;
           justify-content: center;
           gap: 5px;
-          margin-right: -8px;
         }
         .nav__burger span {
           display: block;

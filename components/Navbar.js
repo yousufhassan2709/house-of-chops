@@ -88,14 +88,13 @@ export default function Navbar() {
           top: 0; left: 0; right: 0;
           z-index: 50;
           padding: 14px 0;
-          transition: background 0.3s var(--ease), backdrop-filter 0.3s var(--ease), border-color 0.3s var(--ease);
+          background: #000;
           border-bottom: 1px solid transparent;
+          transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
         }
         .nav--scrolled {
-          background: rgba(0, 0, 0, 0.72);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
           border-bottom-color: var(--color-border-soft);
+          box-shadow: 0 12px 28px -16px rgba(0, 0, 0, 0.6);
         }
         .nav__inner {
           display: flex;

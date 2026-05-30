@@ -217,7 +217,10 @@ section { position: relative; }
   align-items: center;
 }
 .hero__copy > * + * { margin-top: 32px; }
-.hero__eyebrow { display: inline-block; }
+.hero__eyebrow {
+  display: inline-block;
+  color: var(--color-foreground);
+}
 .hero__title {
   font-family: var(--font-serif);
   font-size: clamp(2.4rem, 9vw, 4.6rem);

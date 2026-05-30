@@ -12,14 +12,18 @@ export default function Story() {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="eyebrow">The Concept</span>
+          <span className="eyebrow">The Experience</span>
           <h2>One thing. Done relentlessly well.</h2>
           <p>
-            House of Chops is a delivery-only premium lamb chop brand, operating exclusively
-            on Talabat. We serve bold, fire-grilled lamb chops in signature black packaging
-            — designed to stand out on the app and on the doorstep.
+            Hand-trimmed racks, marinated for a full day in our signature honey BBQ and
+            roasted garlic herb blend, then seared hot over open flame. Charred crust,
+            tender pink centre — every single time.
           </p>
-          <p className="story__rule">No dine-in. No distractions. Just one product, done perfectly.</p>
+          <p>
+            Each box is packed in our signature matte black to land at your door exactly
+            the way it left the grill: hot, juicy, ready to eat the moment you open it.
+          </p>
+          <p className="story__rule">No dine-in. No distractions. Just chops, done right.</p>
 
           <div className="story__stats">
             <div><strong className="display">24h</strong><span>marinade</span></div>

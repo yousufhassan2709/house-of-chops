@@ -73,55 +73,6 @@ export default function Contact() {
       </footer>
 
       <style jsx>{`
-        .cta { padding: 72px 0; }
-        .cta__panel {
-          text-align: center;
-          padding: 44px 24px 48px;
-          background:
-            linear-gradient(180deg, rgba(200, 135, 58, 0.06), rgba(200, 135, 58, 0.02));
-          border: 1px solid var(--color-border);
-          border-radius: var(--radius-lg);
-        }
-        .cta__panel h2 {
-          font-size: clamp(2rem, 5.5vw, 3rem);
-          margin: 14px 0 14px;
-        }
-        .cta__panel > p {
-          color: var(--color-muted);
-          margin-bottom: 28px;
-        }
-        .cta__actions {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          align-items: center;
-          margin-bottom: 36px;
-        }
-        .cta__actions .btn { width: 100%; max-width: 320px; }
-
-        .cta__info {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 18px;
-          text-align: center;
-          padding-top: 28px;
-          border-top: 1px solid var(--color-border-soft);
-        }
-        .cta__info span {
-          display: block;
-          font-size: 0.7rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: var(--color-accent);
-          margin-bottom: 6px;
-          font-family: var(--font-display);
-        }
-        .cta__info strong {
-          font-weight: 400;
-          color: var(--color-foreground);
-          font-size: 0.95rem;
-        }
-
         .footer {
           padding: 48px 0 32px;
         }
@@ -176,14 +127,7 @@ export default function Contact() {
           font-size: 0.78rem;
         }
 
-        @media (min-width: 540px) {
-          .cta__actions { flex-direction: row; justify-content: center; }
-          .cta__actions .btn { width: auto; }
-        }
         @media (min-width: 760px) {
-          .cta { padding: 96px 0; }
-          .cta__panel { padding: 64px 48px; }
-          .cta__info { grid-template-columns: repeat(3, 1fr); padding-top: 36px; }
           .footer { padding: 60px 0 40px; }
           .footer__inner { flex-direction: row; justify-content: space-between; text-align: left; }
           .footer__brand { flex-direction: row; align-items: center; }

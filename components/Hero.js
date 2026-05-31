@@ -31,15 +31,14 @@ export default function Hero() {
           className="hero__copy"
         >
           <motion.span variants={rise} className="eyebrow hero__eyebrow">
-            Dubai · Delivery Only · Talabat Exclusive
+            Dubai · Talabat Exclusive
           </motion.span>
           <motion.h1 variants={rise} className="hero__title">
             Lamb chops,<br />
             <em>done properly.</em>
           </motion.h1>
           <motion.p variants={rise} className="hero__sub">
-            Premium racks. Marinated 24 hours. Fired over open flame. Built to arrive
-            hot, tender and unforgettable.
+            24-hour marinade. Open flame. Delivered hot.
           </motion.p>
           <motion.div variants={rise} className="hero__actions">
             <a

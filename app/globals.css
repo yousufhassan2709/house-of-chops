@@ -175,46 +175,39 @@ section { position: relative; }
    ============================================================ */
 
 /* HERO -----------------------------------------------------
-   Photo-led cinematic hero: image dominates the upper viewport,
-   content sits in the lower third with a soft fade for legibility.
+   Two-zone hero: photo (top ~58%) + copy on solid black (bottom).
+   Photo is never covered by text — chops are the first impression.
 */
 .hero {
-  position: relative;
   min-height: 100dvh;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 96px 24px 56px;
-  overflow: hidden;
-  isolation: isolate;
+  flex-direction: column;
+  background: #020101;
 }
 .hero__photo {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 360px;
   background-color: #050403;
   background-size: cover;
-  background-position: center;
+  background-position: center 65%;
   background-repeat: no-repeat;
-  z-index: -2;
 }
-/* Top: transparent so the chops show through.
-   Bottom: dark gradient that gives copy a legible bed. */
-.hero__scrim {
+/* Soft fade from photo into the black copy area below */
+.hero__photo::after {
+  content: "";
   position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg,
-      rgba(0,0,0,0.45) 0%,
-      rgba(0,0,0,0.05) 22%,
-      rgba(0,0,0,0.05) 42%,
-      rgba(0,0,0,0.70) 70%,
-      rgba(0,0,0,0.95) 100%);
+  left: 0; right: 0; bottom: 0;
+  height: 28%;
+  background: linear-gradient(to bottom, rgba(2,1,1,0) 0%, rgba(2,1,1,0.6) 55%, #020101 100%);
+  pointer-events: none;
 }
 .hero__inner {
   width: 100%;
   display: flex;
   justify-content: center;
+  flex: 0 0 auto;
+  padding: 24px 24px 56px;
 }
 .hero__copy {
   width: 100%;
@@ -225,19 +218,18 @@ section { position: relative; }
   flex-direction: column;
   align-items: center;
 }
-.hero__copy > * + * { margin-top: 22px; }
+.hero__copy > * + * { margin-top: 18px; }
 .hero__eyebrow {
   display: inline-block;
   color: var(--color-foreground);
 }
 .hero__title {
   font-family: var(--font-serif);
-  font-size: clamp(2.6rem, 10vw, 4.6rem);
+  font-size: clamp(2.4rem, 9vw, 4.2rem);
   line-height: 1.02;
   letter-spacing: -0.02em;
   text-align: center;
   width: 100%;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
 .hero__title em { color: var(--color-accent); font-style: italic; }
 .hero__sub {
@@ -257,16 +249,16 @@ section { position: relative; }
   width: 100%;
   max-width: 360px;
   justify-content: center;
-  margin-top: 28px !important;
+  margin-top: 24px !important;
 }
 .hero__actions .btn { width: 100%; }
 .hero__rule {
   width: 100%;
   max-width: 420px;
-  padding-top: 22px;
+  padding-top: 20px;
   border-top: 1px solid var(--color-border);
   text-align: center;
-  margin-top: 28px !important;
+  margin-top: 24px !important;
 }
 .hero__rule span {
   font-size: 0.82rem;
@@ -280,8 +272,9 @@ section { position: relative; }
   .hero__actions .btn { width: auto; }
 }
 @media (min-width: 1024px) {
-  .hero { padding: 120px 24px 88px; }
-  .hero__copy > * + * { margin-top: 26px; }
+  .hero__photo { min-height: 480px; }
+  .hero__inner { padding: 32px 24px 80px; }
+  .hero__copy > * + * { margin-top: 22px; }
   .hero__actions { margin-top: 32px !important; }
   .hero__rule { margin-top: 36px !important; }
 }

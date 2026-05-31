@@ -14,15 +14,12 @@ const rise = {
 export default function Hero() {
   return (
     <section id="top" className="hero">
-      {/* Full-bleed product photo behind everything */}
       <div
         className="hero__photo"
         role="img"
         aria-label="House of Chops branded box with flame-grilled lamb chops, seasoned fries and dipping sauces"
         style={{ backgroundImage: "url('/images/hero.jpg')" }}
       />
-      <div className="hero__scrim" aria-hidden="true" />
-
       <div className="container hero__inner">
         <motion.div
           variants={stagger}

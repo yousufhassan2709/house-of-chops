@@ -17,9 +17,10 @@ export default function Hero() {
       <div
         className="hero__photo"
         role="img"
-        aria-label="House of Chops branded box with flame-grilled lamb chops, seasoned fries and dipping sauces"
+        aria-label="House of Chops branded box with flame-grilled lamb chops"
         style={{ backgroundImage: "url('/images/hero.jpg')" }}
       />
+      <div className="hero__scrim" aria-hidden="true" />
       <div className="container hero__inner">
         <motion.div
           variants={stagger}

@@ -175,39 +175,50 @@ section { position: relative; }
    ============================================================ */
 
 /* HERO -----------------------------------------------------
-   Two-zone hero: photo (top ~58%) + copy on solid black (bottom).
-   Photo is never covered by text — chops are the first impression.
+   Full-bleed cinematic hero. Photo (with chops cropped to fill the frame)
+   sits behind everything. Content overlays the lower portion with a
+   gradient bed that keeps the chops visible above it.
 */
 .hero {
+  position: relative;
   min-height: 100dvh;
   display: flex;
-  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 96px 24px 56px;
+  overflow: hidden;
+  isolation: isolate;
   background: #020101;
 }
 .hero__photo {
-  position: relative;
-  flex: 1 1 auto;
-  min-height: 360px;
+  position: absolute;
+  inset: 0;
   background-color: #050403;
   background-size: cover;
-  background-position: center 65%;
+  background-position: center 38%;
   background-repeat: no-repeat;
+  z-index: -2;
 }
-/* Soft fade from photo into the black copy area below */
-.hero__photo::after {
-  content: "";
+/* Top: barely-there shade for nav contrast.
+   Middle: clear — chops fully visible.
+   Bottom: dark bed so text is legible. */
+.hero__scrim {
   position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 28%;
-  background: linear-gradient(to bottom, rgba(2,1,1,0) 0%, rgba(2,1,1,0.6) 55%, #020101 100%);
-  pointer-events: none;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.10) 14%,
+      rgba(0,0,0,0.00) 38%,
+      rgba(0,0,0,0.00) 56%,
+      rgba(0,0,0,0.80) 82%,
+      rgba(0,0,0,0.96) 100%);
 }
 .hero__inner {
   width: 100%;
   display: flex;
   justify-content: center;
-  flex: 0 0 auto;
-  padding: 24px 24px 56px;
 }
 .hero__copy {
   width: 100%;
@@ -230,6 +241,7 @@ section { position: relative; }
   letter-spacing: -0.02em;
   text-align: center;
   width: 100%;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
 }
 .hero__title em { color: var(--color-accent); font-style: italic; }
 .hero__sub {
@@ -272,8 +284,7 @@ section { position: relative; }
   .hero__actions .btn { width: auto; }
 }
 @media (min-width: 1024px) {
-  .hero__photo { min-height: 480px; }
-  .hero__inner { padding: 32px 24px 80px; }
+  .hero { padding: 120px 24px 88px; }
   .hero__copy > * + * { margin-top: 22px; }
   .hero__actions { margin-top: 32px !important; }
   .hero__rule { margin-top: 36px !important; }

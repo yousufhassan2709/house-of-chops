@@ -231,16 +231,16 @@ section { position: relative; }
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(160% 120% at 50% 50%, transparent 38%, rgba(0,0,0,0.5) 100%),
+    radial-gradient(150% 125% at 50% 42%, transparent 50%, rgba(0,0,0,0.5) 100%),
     linear-gradient(180deg,
-      rgba(0,0,0,0.66) 0%,
-      rgba(0,0,0,0.18) 10%,
-      rgba(0,0,0,0.00) 22%,
-      rgba(0,0,0,0.30) 33%,
-      rgba(2,1,1,0.66) 42%,
-      rgba(2,1,1,0.84) 52%,
-      rgba(1,1,1,0.92) 64%,
-      rgba(1,1,1,0.97) 100%);
+      rgba(0,0,0,0.56) 0%,
+      rgba(0,0,0,0.14) 11%,
+      rgba(0,0,0,0.00) 26%,
+      rgba(0,0,0,0.08) 38%,
+      rgba(2,1,1,0.34) 48%,
+      rgba(2,1,1,0.58) 60%,
+      rgba(1,1,1,0.80) 74%,
+      rgba(1,1,1,0.93) 100%);
 }
 /* Hero-local film grain (the body grain sits behind the photo). */
 .hero__grain {

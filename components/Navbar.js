@@ -108,11 +108,11 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           gap: 12px;
-          min-height: 64px;
+          min-height: 52px;
         }
         .nav__brand img {
-          width: 68px;
-          height: 68px;
+          width: 58px;
+          height: 58px;
           object-fit: contain;
           filter: drop-shadow(0 4px 14px rgba(200, 135, 58, 0.35));
         }
@@ -180,7 +180,7 @@ export default function Navbar() {
 
         .nav__sheet {
           position: fixed;
-          inset: 64px 0 0 0;
+          inset: 80px 0 0 0;
           background: rgba(0, 0, 0, 0.96);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);

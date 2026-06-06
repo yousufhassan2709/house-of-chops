@@ -139,12 +139,30 @@ button { font-family: var(--font-body); cursor: pointer; border: none; backgroun
   white-space: nowrap;
 }
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-deep));
+  background: linear-gradient(135deg, #E8B873, var(--color-accent) 52%, var(--color-accent-deep));
   color: #1A1206;
-  box-shadow: 0 10px 30px -10px rgba(200, 135, 58, 0.6);
+  box-shadow: 0 10px 30px -10px rgba(200, 135, 58, 0.6), inset 0 1px 1px rgba(255,255,255,0.35);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -10px rgba(200, 135, 58, 0.75); }
-.btn-primary:active { transform: translateY(0); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 44px -10px rgba(200, 135, 58, 0.8), inset 0 1px 1px rgba(255,255,255,0.4); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+
+/* Magnetic CTA: nested icon circle that translates on hover. */
+.btn--magnetic { padding-right: 8px; gap: 12px; }
+.btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(26, 18, 6, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(26, 18, 6, 0.2);
+  transition: transform 0.45s var(--ease), background 0.45s var(--ease);
+}
+.btn--magnetic:hover .btn__icon {
+  transform: translate(3px, -1px) scale(1.06);
+  background: rgba(26, 18, 6, 0.28);
+}
 .btn-ghost {
   border: 1px solid var(--color-border);
   color: var(--color-foreground);
@@ -175,9 +193,9 @@ section { position: relative; }
    ============================================================ */
 
 /* HERO -----------------------------------------------------
-   Full-bleed cinematic hero. Photo (with chops cropped to fill the frame)
-   sits behind everything. Content overlays the lower portion with a
-   gradient bed that keeps the chops visible above it.
+   Full-bleed cinematic hero. A slow Ken-Burns photo sits behind a
+   layered directional scrim + film grain. Copy is anchored to the
+   lower third where the bed is darkest, so the chops stay luminous.
 */
 .hero {
   position: relative;
@@ -185,34 +203,55 @@ section { position: relative; }
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 96px 24px 56px;
+  padding: 104px 24px 64px;
   overflow: hidden;
   isolation: isolate;
   background: #020101;
 }
 .hero__photo {
   position: absolute;
-  inset: 0;
+  inset: -2.5%;
   background-color: #050403;
   background-size: cover;
-  background-position: center 38%;
+  background-position: 30% 42%;
   background-repeat: no-repeat;
-  z-index: -2;
+  z-index: -3;
+  transform: scale(1.06);
+  animation: heroKenBurns 26s var(--ease) both;
+  will-change: transform;
 }
-/* Mostly transparent — photo dominates. Just enough fade at the
-   top for nav contrast and at the bottom for text legibility. */
+@keyframes heroKenBurns {
+  from { transform: scale(1.14) translate3d(2%, 1.5%, 0); }
+  to   { transform: scale(1.04) translate3d(-1.5%, -1%, 0); }
+}
+/* Layered cinematic bed: top fade for nav, a luminous gap that lets the
+   chops breathe, then a deep gradient + corner vignette under the copy. */
 .hero__scrim {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   background:
+    radial-gradient(130% 70% at 50% 122%, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.0) 60%),
+    radial-gradient(150% 130% at 50% 42%, transparent 46%, rgba(0,0,0,0.6) 100%),
     linear-gradient(180deg,
-      rgba(0,0,0,0.40) 0%,
-      rgba(0,0,0,0.05) 14%,
-      rgba(0,0,0,0.00) 32%,
-      rgba(0,0,0,0.00) 58%,
-      rgba(0,0,0,0.45) 78%,
-      rgba(0,0,0,0.62) 100%);
+      rgba(0,0,0,0.66) 0%,
+      rgba(0,0,0,0.20) 11%,
+      rgba(0,0,0,0.00) 24%,
+      rgba(0,0,0,0.14) 36%,
+      rgba(2,1,1,0.48) 46%,
+      rgba(2,1,1,0.72) 56%,
+      rgba(1,1,1,0.86) 70%,
+      rgba(1,1,1,0.95) 100%);
+}
+/* Hero-local film grain (the body grain sits behind the photo). */
+.hero__grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.05;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='hn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23hn)'/%3E%3C/svg%3E");
 }
 .hero__inner {
   width: 100%;
@@ -229,32 +268,67 @@ section { position: relative; }
   align-items: center;
 }
 .hero__copy > * + * { margin-top: 18px; }
+
+/* Eyebrow as a glass pill badge with a live flame dot. */
 .hero__eyebrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 16px 7px 13px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
   color: var(--color-foreground);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+  background: rgba(10, 8, 6, 0.42);
+  border: 1px solid rgba(200, 135, 58, 0.34);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08), 0 8px 24px -12px rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.hero__flame {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px 1px rgba(200, 135, 58, 0.9);
+  animation: heroPulse 2.4s ease-in-out infinite;
+}
+@keyframes heroPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.82); }
 }
 .hero__title {
   font-family: var(--font-serif);
-  font-size: clamp(2.4rem, 9vw, 4.2rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-size: clamp(2.7rem, 10.5vw, 5rem);
+  line-height: 1.0;
+  letter-spacing: -0.025em;
   text-align: center;
   width: 100%;
-  text-shadow: 0 3px 22px rgba(0, 0, 0, 0.85), 0 1px 2px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.65);
 }
-.hero__title em { color: var(--color-accent); font-style: italic; }
+.hero__title em {
+  color: #F2C98A;
+  font-style: italic;
+  background: linear-gradient(135deg, #FBE3B8, #ECBE7E 55%, var(--color-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 14px rgba(0,0,0,0.85));
+}
 .hero__sub {
-  font-size: clamp(0.96rem, 2.4vw, 1.1rem);
+  font-size: clamp(0.98rem, 2.4vw, 1.12rem);
   color: var(--color-foreground-soft);
-  letter-spacing: 0.06em;
-  line-height: 1.4;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  max-width: 30rem;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
+  max-width: 32rem;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
 }
+.hero__sub span { color: var(--color-accent); margin: 0 4px; }
 .hero__actions {
   display: flex;
   flex-direction: column;
@@ -262,16 +336,26 @@ section { position: relative; }
   width: 100%;
   max-width: 360px;
   justify-content: center;
-  margin-top: 24px !important;
+  margin-top: 28px !important;
 }
 .hero__actions .btn { width: 100%; }
 .hero__rule {
   width: 100%;
   max-width: 420px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-border);
+  padding-top: 22px;
+  position: relative;
   text-align: center;
-  margin-top: 24px !important;
+  margin-top: 30px !important;
+}
+.hero__rule::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,135,58,0.5), transparent);
 }
 .hero__rule span {
   font-size: 0.82rem;
@@ -281,15 +365,58 @@ section { position: relative; }
   display: block;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
 }
+
+/* Scroll cue pinned to the base of the hero. */
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+}
+.hero__scroll-label {
+  font-family: var(--font-display);
+  font-size: 0.66rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.hero__scroll-track {
+  width: 22px;
+  height: 36px;
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+.hero__scroll-dot {
+  width: 3px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  animation: heroScroll 1.8s var(--ease) infinite;
+}
+@keyframes heroScroll {
+  0% { opacity: 0; transform: translateY(-2px); }
+  35% { opacity: 1; }
+  70% { opacity: 1; transform: translateY(11px); }
+  100% { opacity: 0; transform: translateY(13px); }
+}
 @media (min-width: 540px) {
   .hero__actions { flex-direction: row; max-width: none; }
   .hero__actions .btn { width: auto; }
 }
 @media (min-width: 1024px) {
-  .hero { padding: 120px 24px 88px; }
+  .hero { padding: 128px 24px 96px; }
   .hero__copy > * + * { margin-top: 22px; }
-  .hero__actions { margin-top: 32px !important; }
-  .hero__rule { margin-top: 36px !important; }
+  .hero__actions { margin-top: 34px !important; }
+  .hero__rule { margin-top: 38px !important; }
+  .hero__scroll { display: flex; }
 }
 
 /* STORY ---------------------------------------------------- */

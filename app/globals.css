@@ -314,17 +314,18 @@ section { position: relative; }
   text-shadow: 0 2px 4px rgba(0,0,0,0.95), 0 4px 24px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.8);
 }
 .hero__sub {
-  font-size: clamp(0.98rem, 2.4vw, 1.12rem);
+  font-size: clamp(0.76rem, 3.1vw, 1.12rem);
   color: var(--color-foreground-soft);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   line-height: 1.5;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  max-width: 32rem;
+  max-width: 36rem;
+  white-space: nowrap;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
 }
-.hero__sub span { color: var(--color-accent); margin: 0 4px; }
+.hero__sub span { color: var(--color-accent); margin: 0 3px; }
 .hero__actions {
   display: flex;
   flex-direction: column;

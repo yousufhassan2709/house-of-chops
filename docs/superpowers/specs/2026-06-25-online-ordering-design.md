@@ -75,7 +75,7 @@ Row-level security: enabled, deny-all (no anon/public access).
 | Column            | Type        | Notes                                              |
 |-------------------|-------------|----------------------------------------------------|
 | id                | uuid        | PK, default gen_random_uuid()                      |
-| order_number      | text        | Human-readable, e.g. `HOC-1042`, server-generated  |
+| order_number      | text        | Human-readable, e.g. `HOC-01`, server-generated     |
 | created_at        | timestamptz | default now()                                      |
 | customer_name     | text        | required                                           |
 | customer_phone    | text        | required                                           |
@@ -87,7 +87,8 @@ Row-level security: enabled, deny-all (no anon/public access).
 | status            | text        | pending_payment / new / cooking / ready / delivered|
 | ziina_payment_id  | text        | Ziina payment intent id                            |
 
-Order number: a Postgres sequence (e.g. start 1000) formatted as `HOC-{n}`, assigned on insert.
+Order number: a Postgres sequence starting at 1, formatted as `HOC-{n}` zero-padded to at
+least 2 digits (`HOC-01`, `HOC-02`, … `HOC-99`, `HOC-100`), assigned on insert.
 
 ## Customer flow detail
 

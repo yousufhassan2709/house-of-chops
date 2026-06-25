@@ -52,9 +52,7 @@ export default function Hero() {
 
           <motion.div variants={rise} className="hero__actions">
             <a
-              href={SITE.orderUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/order"
               className="btn btn-primary btn--magnetic"
             >
               <span>Order Now</span>

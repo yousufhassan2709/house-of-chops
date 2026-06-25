@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { PRODUCTS, DELIVERY_FEE } from '@/lib/products';
 
 const LIST = [PRODUCTS.classic, PRODUCTS.large];
@@ -55,7 +54,7 @@ export default function OrderPage() {
     <main className="order">
       <div className="container">
         <header className="order__head">
-          <Link href="/" className="order__back">← House of Chops</Link>
+          <a href="/" className="order__back">← House of Chops</a>
           <span className="eyebrow">Order Online</span>
           <h1>Build your box.</h1>
           <p>Fired to order, packed to travel. Delivery across Dubai.</p>
@@ -118,7 +117,7 @@ export default function OrderPage() {
       <style jsx>{`
         .order { padding: 40px 0 96px; min-height: 100dvh; }
         .order__head { text-align: center; max-width: 38rem; margin: 0 auto 36px; }
-        .order__back { display: inline-block; color: var(--color-muted); font-size: 0.85rem; margin-bottom: 18px; }
+        .order__back { display: block; width: fit-content; margin: 0 auto 18px; color: var(--color-muted); font-size: 0.85rem; }
         .order__head h1 { font-size: clamp(2.2rem, 6vw, 3rem); margin: 12px 0 10px; }
         .order__head p { color: var(--color-muted); }
         .order__grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-bottom: 28px; }

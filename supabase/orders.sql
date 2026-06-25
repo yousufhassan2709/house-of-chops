@@ -22,3 +22,13 @@ create table if not exists public.orders (
 -- Lock the table down. The server uses the service-role key, which bypasses RLS.
 -- With RLS on and no policies, anon/public keys can read or write nothing.
 alter table public.orders enable row level security;
+
+-- Ensure one order row per Ziina payment intent (hardens idempotent confirmation).
+-- Safe to re-run: does nothing if the constraint already exists.
+do $$
+begin
+  alter table public.orders add constraint orders_ziina_payment_id_key unique (ziina_payment_id);
+exception
+  when duplicate_object then null;
+  when duplicate_table then null;
+end $$;

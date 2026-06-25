@@ -27,6 +27,10 @@ export async function POST(request) {
       failureUrl: `${origin}/order?status=failed`,
     });
 
+    if (!intent?.id || !intent?.redirect_url) {
+      throw new Error('Ziina did not return a valid payment intent.');
+    }
+
     const supabase = getSupabase();
     const { error } = await supabase.from('orders').insert({
       customer_name: name,

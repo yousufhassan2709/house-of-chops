@@ -6,28 +6,48 @@ import { getPaymentIntent } from '@/lib/ziina';
 export const runtime = 'nodejs';
 
 export async function POST() {
-  const cookieStore = cookies();
-  const pi = cookieStore.get('hoc_pi')?.value;
-  if (!pi) return NextResponse.json({ error: 'No pending order found.' }, { status: 400 });
+  try {
+    const cookieStore = cookies();
+    const pi = cookieStore.get('hoc_pi')?.value;
+    if (!pi) return NextResponse.json({ error: 'No pending order found.' }, { status: 400 });
 
-  const intent = await getPaymentIntent(pi);
-  const supabase = getSupabase();
+    const supabase = getSupabase();
 
-  if (intent.status === 'completed') {
-    await supabase.from('orders')
-      .update({ status: 'new' })
-      .eq('ziina_payment_id', pi)
-      .eq('status', 'pending_payment');
-
-    const { data } = await supabase.from('orders')
-      .select('order_number')
+    // Look up the pending order so we can verify the amount Ziina captured.
+    const { data: order } = await supabase
+      .from('orders')
+      .select('order_number, total, status')
       .eq('ziina_payment_id', pi)
       .maybeSingle();
 
-    const res = NextResponse.json({ status: 'paid', order_number: data?.order_number || null });
-    res.cookies.delete('hoc_pi');
-    return res;
-  }
+    if (!order) return NextResponse.json({ error: 'Order not found.' }, { status: 404 });
 
-  return NextResponse.json({ status: intent.status || 'pending' });
+    const intent = await getPaymentIntent(pi);
+
+    // Defense in depth: when Ziina returns an amount, it must match what we charged (in fils).
+    const expectedFils = Number(order.total) * 100;
+    if (Number.isFinite(intent?.amount) && intent.amount !== expectedFils) {
+      return NextResponse.json({ status: 'amount_mismatch' }, { status: 409 });
+    }
+
+    if (intent?.status === 'completed') {
+      // Flip to "new" only on the first confirmation (idempotent via the status guard).
+      const { data: updated } = await supabase
+        .from('orders')
+        .update({ status: 'new' })
+        .eq('ziina_payment_id', pi)
+        .eq('status', 'pending_payment')
+        .select('order_number')
+        .maybeSingle();
+
+      const orderNumber = updated?.order_number || order.order_number || null;
+      const res = NextResponse.json({ status: 'paid', order_number: orderNumber });
+      res.cookies.delete('hoc_pi');
+      return res;
+    }
+
+    return NextResponse.json({ status: intent?.status || 'pending' });
+  } catch (err) {
+    return NextResponse.json({ error: 'Could not confirm payment.' }, { status: 502 });
+  }
 }

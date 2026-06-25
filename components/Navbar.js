@@ -34,9 +34,7 @@ export default function Navbar() {
 
         <div className="nav__end">
           <a
-            href={SITE.orderUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/order"
             className="btn btn-primary nav__cta"
           >
             Order Now
@@ -74,9 +72,7 @@ export default function Navbar() {
         <a href="#story" onClick={() => setOpen(false)}>Story</a>
         <a href="#contact" onClick={() => setOpen(false)}>Contact</a>
         <a
-          href={SITE.orderUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/order"
           className="btn btn-primary"
           onClick={() => setOpen(false)}
         >

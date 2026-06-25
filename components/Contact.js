@@ -19,9 +19,7 @@ export default function Contact() {
             <p>Open daily across Dubai. Order now and we’ll fire them fresh.</p>
             <div className="cta__actions">
               <a
-                href={SITE.orderUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/order"
                 className="btn btn-primary"
               >
                 Order Now
@@ -62,7 +60,7 @@ export default function Contact() {
           <nav className="footer__links" aria-label="Footer">
             <a href="#menu">Menu</a>
             <a href="#story">Story</a>
-            <a href={SITE.orderUrl} target="_blank" rel="noopener noreferrer">Order</a>
+            <a href="/order">Order</a>
             <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
           </nav>
         </div>

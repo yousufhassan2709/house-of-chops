@@ -37,7 +37,7 @@ export default function Hero() {
         >
           <motion.span variants={rise} className="hero__eyebrow">
             <span className="hero__flame" aria-hidden="true" />
-            Dubai · Talabat Exclusive
+            Dubai · Delivery Only
           </motion.span>
 
           <motion.h1 variants={rise} className="hero__title">
@@ -52,12 +52,12 @@ export default function Hero() {
 
           <motion.div variants={rise} className="hero__actions">
             <a
-              href={SITE.talabatUrl}
+              href={SITE.orderUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary btn--magnetic"
             >
-              <span>Order on Talabat</span>
+              <span>Order Now</span>
               <span className="btn__icon" aria-hidden="true">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
                   <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />

@@ -34,7 +34,7 @@ export default function Navbar() {
 
         <div className="nav__end">
           <a
-            href={SITE.talabatUrl}
+            href={SITE.orderUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary nav__cta"
@@ -74,13 +74,13 @@ export default function Navbar() {
         <a href="#story" onClick={() => setOpen(false)}>Story</a>
         <a href="#contact" onClick={() => setOpen(false)}>Contact</a>
         <a
-          href={SITE.talabatUrl}
+          href={SITE.orderUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-primary"
           onClick={() => setOpen(false)}
         >
-          Order on Talabat
+          Order Now
         </a>
       </div>
 

@@ -37,11 +37,11 @@ export default function Menu() {
                 <div className="card__foot">
                   <span className="card__price display">{item.price}</span>
                   <a
-                    href={SITE.talabatUrl}
+                    href={SITE.orderUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-ghost card__cta"
-                    aria-label={`Order the ${item.name} on Talabat`}
+                    aria-label={`Order the ${item.name} on WhatsApp`}
                   >
                     Order
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
@@ -57,8 +57,8 @@ export default function Menu() {
         <p className="menu__note">All prices inclusive of VAT. Fries + 2 sauces included with every box.</p>
 
         <div className="menu__cta">
-          <a href={SITE.talabatUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-            Order on Talabat
+          <a href={SITE.orderUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+            Order Now
           </a>
         </div>
       </div>

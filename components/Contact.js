@@ -19,12 +19,12 @@ export default function Contact() {
             <p>Open daily across Dubai. Order now and we’ll fire them fresh.</p>
             <div className="cta__actions">
               <a
-                href={SITE.talabatUrl}
+                href={SITE.orderUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"
               >
-                Order on Talabat
+                Order Now
               </a>
               <a
                 href={SITE.instagram}
@@ -62,7 +62,7 @@ export default function Contact() {
           <nav className="footer__links" aria-label="Footer">
             <a href="#menu">Menu</a>
             <a href="#story">Story</a>
-            <a href={SITE.talabatUrl} target="_blank" rel="noopener noreferrer">Talabat</a>
+            <a href={SITE.orderUrl} target="_blank" rel="noopener noreferrer">Order</a>
             <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
           </nav>
         </div>

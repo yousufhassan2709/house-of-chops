@@ -17,7 +17,9 @@ export default function LocationPicker({ value, onChange }) {
 
   const hasPin = value.lat != null && value.lng != null;
   const center = hasPin ? { lat: value.lat, lng: value.lng } : DUBAI;
-  const set = (patch) => onChange({ ...value, ...patch });
+  // Functional updates so async callbacks always merge against the latest state
+  // (never overwrite villa/floor/etc. typed while a geocode request is in flight).
+  const set = (patch) => onChange((curr) => ({ ...curr, ...patch }));
 
   const getGeocoder = () => {
     if (!geocoderRef.current && typeof window !== 'undefined' && window.google) {
@@ -27,19 +29,23 @@ export default function LocationPicker({ value, onChange }) {
   };
 
   const dropPin = useCallback((lat, lng, formattedAddress) => {
-    if (formattedAddress != null) onChange({ ...value, lat, lng, formattedAddress });
-    else onChange({ ...value, lat, lng });
+    onChange((curr) => ({
+      ...curr,
+      lat,
+      lng,
+      formattedAddress: formattedAddress != null ? formattedAddress : curr.formattedAddress,
+    }));
     if (mapRef.current) { mapRef.current.panTo({ lat, lng }); mapRef.current.setZoom(16); }
-  }, [value, onChange]);
+  }, [onChange]);
 
   const reverseGeocode = useCallback((lat, lng) => {
     const geocoder = getGeocoder();
     if (!geocoder) { dropPin(lat, lng); return; }
     geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-      const addr = status === 'OK' && results && results[0] ? results[0].formatted_address : (value.formattedAddress || '');
+      const addr = status === 'OK' && results && results[0] ? results[0].formatted_address : null;
       dropPin(lat, lng, addr);
     });
-  }, [dropPin, value.formattedAddress]);
+  }, [dropPin]);
 
   const runSearch = (e) => {
     if (e) e.preventDefault();
@@ -61,10 +67,15 @@ export default function LocationPicker({ value, onChange }) {
   };
 
   const locateMe = () => {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition((pos) => {
-      reverseGeocode(pos.coords.latitude, pos.coords.longitude);
-    });
+    if (!navigator.geolocation) {
+      setSearchError('Location isn’t available on this device — search or drop the pin instead.');
+      return;
+    }
+    setSearchError('');
+    navigator.geolocation.getCurrentPosition(
+      (pos) => reverseGeocode(pos.coords.latitude, pos.coords.longitude),
+      () => setSearchError('Couldn’t get your location — search or drop the pin on the map instead.'),
+    );
   };
 
   const details = (

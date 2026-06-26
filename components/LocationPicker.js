@@ -1,55 +1,69 @@
 'use client';
-import { useRef, useCallback } from 'react';
-import { useLoadScript, GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
+import { useRef, useState, useCallback } from 'react';
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 
-const LIBRARIES = ['places'];
 const DUBAI = { lat: 25.2048, lng: 55.2708 };
 
 export default function LocationPicker({ value, onChange }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-    libraries: LIBRARIES,
   });
 
   const mapRef = useRef(null);
-  const autoRef = useRef(null);
   const geocoderRef = useRef(null);
+  const [query, setQuery] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState('');
 
   const hasPin = value.lat != null && value.lng != null;
   const center = hasPin ? { lat: value.lat, lng: value.lng } : DUBAI;
   const set = (patch) => onChange({ ...value, ...patch });
 
-  const reverseGeocode = useCallback((lat, lng) => {
+  const getGeocoder = () => {
     if (!geocoderRef.current && typeof window !== 'undefined' && window.google) {
       geocoderRef.current = new window.google.maps.Geocoder();
     }
-    if (!geocoderRef.current) { onChange({ ...value, lat, lng }); return; }
-    geocoderRef.current.geocode({ location: { lat, lng } }, (results, status) => {
-      if (status === 'OK' && results && results[0]) {
-        onChange({ ...value, lat, lng, formattedAddress: results[0].formatted_address });
-      } else {
-        onChange({ ...value, lat, lng });
-      }
-    });
+    return geocoderRef.current;
+  };
+
+  const dropPin = useCallback((lat, lng, formattedAddress) => {
+    if (formattedAddress != null) onChange({ ...value, lat, lng, formattedAddress });
+    else onChange({ ...value, lat, lng });
+    if (mapRef.current) { mapRef.current.panTo({ lat, lng }); mapRef.current.setZoom(16); }
   }, [value, onChange]);
 
-  const onPlaceChanged = () => {
-    const place = autoRef.current?.getPlace();
-    if (place?.geometry?.location) {
-      const lat = place.geometry.location.lat();
-      const lng = place.geometry.location.lng();
-      onChange({ ...value, lat, lng, formattedAddress: place.formatted_address || place.name || '' });
-      if (mapRef.current) { mapRef.current.panTo({ lat, lng }); mapRef.current.setZoom(16); }
-    }
+  const reverseGeocode = useCallback((lat, lng) => {
+    const geocoder = getGeocoder();
+    if (!geocoder) { dropPin(lat, lng); return; }
+    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+      const addr = status === 'OK' && results && results[0] ? results[0].formatted_address : (value.formattedAddress || '');
+      dropPin(lat, lng, addr);
+    });
+  }, [dropPin, value.formattedAddress]);
+
+  const runSearch = (e) => {
+    if (e) e.preventDefault();
+    const q = query.trim();
+    if (!q) return;
+    const geocoder = getGeocoder();
+    if (!geocoder) return;
+    setSearching(true);
+    setSearchError('');
+    geocoder.geocode({ address: q, componentRestrictions: { country: 'ae' } }, (results, status) => {
+      setSearching(false);
+      if (status === 'OK' && results && results[0]) {
+        const loc = results[0].geometry.location;
+        dropPin(loc.lat(), loc.lng(), results[0].formatted_address);
+      } else {
+        setSearchError('No match — try a different search, or drop the pin on the map.');
+      }
+    });
   };
 
   const locateMe = () => {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition((pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
-      reverseGeocode(lat, lng);
-      if (mapRef.current) { mapRef.current.panTo({ lat, lng }); mapRef.current.setZoom(16); }
+      reverseGeocode(pos.coords.latitude, pos.coords.longitude);
     });
   };
 
@@ -69,7 +83,7 @@ export default function LocationPicker({ value, onChange }) {
   if (loadError) {
     return (
       <div className="lp">
-        <p className="lp__err">Map couldn't load — type your address instead.</p>
+        <p className="lp__err">Map couldn’t load — type your address instead.</p>
         <textarea className="lp__fallback" placeholder="Delivery address" rows={3}
           value={value.formattedAddress || ''} onChange={(e) => set({ formattedAddress: e.target.value })} />
         {details}
@@ -83,13 +97,12 @@ export default function LocationPicker({ value, onChange }) {
 
   return (
     <div className="lp">
-      <Autocomplete
-        onLoad={(a) => (autoRef.current = a)}
-        onPlaceChanged={onPlaceChanged}
-        options={{ componentRestrictions: { country: 'ae' }, fields: ['geometry', 'formatted_address', 'name'] }}
-      >
-        <input className="lp__search" placeholder="Search your area, building or street" />
-      </Autocomplete>
+      <form className="lp__searchrow" onSubmit={runSearch}>
+        <input className="lp__search" placeholder="Search your area, building or street"
+          value={query} onChange={(e) => setQuery(e.target.value)} />
+        <button type="submit" className="lp__searchbtn" disabled={searching}>{searching ? '…' : 'Search'}</button>
+      </form>
+      {searchError && <p className="lp__err">{searchError}</p>}
 
       <button type="button" className="lp__locate" onClick={locateMe}>📍 Use my current location</button>
 
@@ -125,12 +138,18 @@ export default function LocationPicker({ value, onChange }) {
 
 const styles = `
   .lp { display: flex; flex-direction: column; gap: 12px; }
-  .lp__search { width: 100%; padding: 13px 14px; background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius); color: var(--color-foreground); font-family: var(--font-body); font-size: 1rem; }
+  .lp__searchrow { display: flex; gap: 8px; }
+  .lp__search { flex: 1; min-width: 0; padding: 13px 14px; background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius); color: var(--color-foreground); font-family: var(--font-body); font-size: 1rem; }
   .lp__search:focus { outline: none; border-color: var(--color-accent); }
+  .lp__searchbtn { padding: 0 18px; border-radius: var(--radius); border: 1px solid var(--color-border); background: var(--color-accent); color: #1A1206; font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
+  .lp__searchbtn:disabled { opacity: 0.5; }
   .lp__locate { align-self: flex-start; padding: 9px 14px; border-radius: var(--radius); border: 1px solid var(--color-border); background: var(--color-surface-2); color: var(--color-foreground-soft); font-size: 0.85rem; }
   .lp__locate:hover { border-color: var(--color-accent); }
   .lp__map { width: 100%; height: 260px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--color-border); }
   .lp__addr { color: var(--color-muted); font-size: 0.85rem; }
   .lp__loading, .lp__err { color: var(--color-muted); font-size: 0.9rem; }
   .lp__fallback { width: 100%; padding: 13px 14px; background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius); color: var(--color-foreground); font-family: var(--font-body); font-size: 1rem; }
+  .fields { display: flex; flex-direction: column; gap: 10px; }
+  .fields input, .fields textarea { width: 100%; padding: 13px 14px; background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius); color: var(--color-foreground); font-family: var(--font-body); font-size: 1rem; }
+  .fields input:focus, .fields textarea:focus { outline: none; border-color: var(--color-accent); }
 `;

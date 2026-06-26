@@ -89,6 +89,10 @@ export default function KitchenBoard() {
                   <div>{o.customer_name}</div>
                   <a href={`tel:${o.customer_phone}`}>{o.customer_phone}</a>
                   <div className="card__addr">{o.customer_address}</div>
+                  {o.latitude != null && o.longitude != null && (
+                    <a className="card__maps" href={`https://www.google.com/maps?q=${o.latitude},${o.longitude}`}
+                      target="_blank" rel="noopener noreferrer">📍 Open in Google Maps</a>
+                  )}
                 </div>
                 <div className="card__foot">
                   <span className="card__total">AED {o.total}</span>
@@ -122,6 +126,7 @@ export default function KitchenBoard() {
         .card__cust { font-size: 0.85rem; color: var(--color-foreground-soft); margin-bottom: 10px; }
         .card__cust a { color: var(--color-accent); }
         .card__addr { color: var(--color-muted); margin-top: 2px; }
+        .card__maps { display: inline-block; margin-top: 6px; color: var(--color-accent); font-weight: 600; font-size: 0.82rem; }
         .card__foot { display: flex; justify-content: space-between; align-items: center; }
         .card__total { font-family: var(--font-display); color: var(--color-accent); }
         .card__foot button { padding: 9px 14px; border-radius: var(--radius); background: var(--color-accent); color: #1A1206; font-weight: 600; font-size: 0.85rem; }

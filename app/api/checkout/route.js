@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { calculateOrder } from '@/lib/products';
+import { buildOrderLocation } from '@/lib/location';
 import { getSupabase } from '@/lib/supabase';
 import { createPaymentIntent } from '@/lib/ziina';
 
@@ -11,10 +12,11 @@ export async function POST(request) {
     const customer = body?.customer || {};
     const name = String(customer.name || '').trim();
     const phone = String(customer.phone || '').trim();
-    const address = String(customer.address || '').trim();
-    if (!name || !phone || !address) {
-      return NextResponse.json({ error: 'Name, phone, and address are all required.' }, { status: 400 });
+    if (!name || !phone) {
+      return NextResponse.json({ error: 'Name and phone are required.' }, { status: 400 });
     }
+    // Validates coordinates and composes a readable address server-side (throws on bad input).
+    const location = buildOrderLocation(customer);
 
     // Server-authoritative total — the browser's numbers are ignored.
     const order = calculateOrder(body?.items);
@@ -35,7 +37,10 @@ export async function POST(request) {
     const { error } = await supabase.from('orders').insert({
       customer_name: name,
       customer_phone: phone,
-      customer_address: address,
+      customer_address: location.customer_address,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      address_details: location.address_details,
       items: order.lineItems,
       subtotal: order.subtotal,
       delivery_fee: order.delivery_fee,

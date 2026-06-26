@@ -1,13 +1,18 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { PRODUCTS, DELIVERY_FEE } from '@/lib/products';
+import LocationPicker from '@/components/LocationPicker';
 
 const LIST = [PRODUCTS.classic, PRODUCTS.large];
 const STORAGE_KEY = 'hoc_cart_v1';
 
 export default function OrderPage() {
   const [qty, setQty] = useState({ classic: 0, large: 0 });
-  const [customer, setCustomer] = useState({ name: '', phone: '', address: '' });
+  const [customer, setCustomer] = useState({
+    name: '', phone: '',
+    lat: null, lng: null, formattedAddress: '',
+    villa: '', building: '', floor: '', directions: '',
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -26,7 +31,8 @@ export default function OrderPage() {
   const subtotal = LIST.reduce((s, p) => s + p.price * (qty[p.id] || 0), 0);
   const hasItems = items.length > 0;
   const total = hasItems ? subtotal + DELIVERY_FEE : 0;
-  const filled = customer.name.trim() && customer.phone.trim() && customer.address.trim();
+  const hasLocation = (customer.lat != null && customer.lng != null) || (customer.formattedAddress || '').trim();
+  const filled = customer.name.trim() && customer.phone.trim() && hasLocation && (customer.villa || '').trim();
   const canPay = hasItems && filled && !loading;
 
   const step = (id, d) =>
@@ -100,9 +106,9 @@ export default function OrderPage() {
                   onChange={(e) => setCustomer({ ...customer, name: e.target.value })} />
                 <input placeholder="Phone number" inputMode="tel" value={customer.phone}
                   onChange={(e) => setCustomer({ ...customer, phone: e.target.value })} />
-                <textarea placeholder="Delivery address" rows={3} value={customer.address}
-                  onChange={(e) => setCustomer({ ...customer, address: e.target.value })} />
               </div>
+
+              <LocationPicker value={customer} onChange={setCustomer} />
 
               {error && <p className="cart__error">{error}</p>}
               <button className="btn btn-primary pay" disabled={!canPay} onClick={pay}>

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getSupabase } from '@/lib/supabase';
 import { getPaymentIntent } from '@/lib/ziina';
+import { ORDER_STATUS } from '@/lib/orderStatus';
 
 export const runtime = 'nodejs';
 
@@ -34,9 +35,9 @@ export async function POST() {
       // Flip to "new" only on the first confirmation (idempotent via the status guard).
       const { data: updated } = await supabase
         .from('orders')
-        .update({ status: 'new' })
+        .update({ status: ORDER_STATUS.NEW })
         .eq('ziina_payment_id', pi)
-        .eq('status', 'pending_payment')
+        .eq('status', ORDER_STATUS.PENDING_PAYMENT)
         .select('order_number')
         .maybeSingle();
 

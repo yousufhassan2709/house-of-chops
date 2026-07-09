@@ -3,6 +3,7 @@ import { calculateOrder } from '@/lib/products';
 import { buildOrderLocation } from '@/lib/location';
 import { getSupabase } from '@/lib/supabase';
 import { createPaymentIntent } from '@/lib/ziina';
+import { ORDER_STATUS } from '@/lib/orderStatus';
 
 export const runtime = 'nodejs';
 
@@ -45,7 +46,7 @@ export async function POST(request) {
       subtotal: order.subtotal,
       delivery_fee: order.delivery_fee,
       total: order.total,
-      status: 'pending_payment',
+      status: ORDER_STATUS.PENDING_PAYMENT,
       ziina_payment_id: intent.id,
     });
     if (error) throw new Error(error.message);

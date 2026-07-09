@@ -1,11 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-
-const COLUMNS = [
-  { key: 'new', label: 'New', next: 'cooking', cta: 'Start cooking' },
-  { key: 'cooking', label: 'Cooking', next: 'ready', cta: 'Mark ready' },
-  { key: 'ready', label: 'Ready / Out', next: 'delivered', cta: 'Delivered' },
-];
+import { ORDER_STATUS, KITCHEN_COLUMNS } from '@/lib/orderStatus';
 
 function timeSince(iso) {
   const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
@@ -29,7 +24,7 @@ export default function KitchenBoard() {
     const incoming = data.orders || [];
     const fresh = new Set();
     for (const o of incoming) {
-      if (!seenIds.current.has(o.id) && o.status === 'new') fresh.add(o.id);
+      if (!seenIds.current.has(o.id) && o.status === ORDER_STATUS.NEW) fresh.add(o.id);
       seenIds.current.add(o.id);
     }
     if (fresh.size) {
@@ -71,7 +66,7 @@ export default function KitchenBoard() {
       </header>
 
       <div className="kb__board">
-        {COLUMNS.map((col) => (
+        {KITCHEN_COLUMNS.map((col) => (
           <section key={col.key} className="kb__col">
             <h2>{col.label} <span>{countFor(col.key)}</span></h2>
             {orders.filter((o) => o.status === col.key).map((o) => (

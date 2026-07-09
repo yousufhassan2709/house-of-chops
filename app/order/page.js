@@ -1,13 +1,13 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { PRODUCTS, DELIVERY_FEE } from '@/lib/products';
+import { useState, useEffect, useRef } from 'react';
+import { PRODUCT_LIST, DELIVERY_FEE } from '@/lib/products';
+import { hasDeliveryLocation } from '@/lib/location';
 import LocationPicker from '@/components/LocationPicker';
 
-const LIST = [PRODUCTS.classic, PRODUCTS.large];
 const STORAGE_KEY = 'hoc_cart_v1';
 
 export default function OrderPage() {
-  const [qty, setQty] = useState({ classic: 0, large: 0 });
+  const [qty, setQty] = useState(() => Object.fromEntries(PRODUCT_LIST.map((p) => [p.id, 0])));
   const [customer, setCustomer] = useState({
     name: '', phone: '',
     lat: null, lng: null, formattedAddress: '',
@@ -16,6 +16,9 @@ export default function OrderPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // The first save-effect run fires with the initial empty state, before the
+  // load effect's setState has applied — skip it so it can't clobber a saved cart.
+  const skipFirstSave = useRef(true);
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
@@ -24,15 +27,18 @@ export default function OrderPage() {
     } catch {}
   }, []);
   useEffect(() => {
+    if (skipFirstSave.current) {
+      skipFirstSave.current = false;
+      return;
+    }
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ qty, customer }));
   }, [qty, customer]);
 
-  const items = LIST.filter((p) => qty[p.id] > 0).map((p) => ({ id: p.id, qty: qty[p.id] }));
-  const subtotal = LIST.reduce((s, p) => s + p.price * (qty[p.id] || 0), 0);
+  const items = PRODUCT_LIST.filter((p) => qty[p.id] > 0).map((p) => ({ id: p.id, qty: qty[p.id] }));
+  const subtotal = PRODUCT_LIST.reduce((s, p) => s + p.price * (qty[p.id] || 0), 0);
   const hasItems = items.length > 0;
   const total = hasItems ? subtotal + DELIVERY_FEE : 0;
-  const hasLocation = (customer.lat != null && customer.lng != null) || (customer.formattedAddress || '').trim();
-  const filled = customer.name.trim() && customer.phone.trim() && hasLocation && (customer.villa || '').trim();
+  const filled = customer.name.trim() && customer.phone.trim() && hasDeliveryLocation(customer) && (customer.villa || '').trim();
   const canPay = hasItems && filled && !loading;
 
   const step = (id, d) =>
@@ -67,9 +73,9 @@ export default function OrderPage() {
         </header>
 
         <section className="order__grid">
-          {LIST.map((p) => (
+          {PRODUCT_LIST.map((p) => (
             <article key={p.id} className="box">
-              <div className="box__media" style={{ backgroundImage: `url(/images/${p.id}-box.jpg)` }} />
+              <div className="box__media" style={{ backgroundImage: `url(${p.image})` }} />
               <div className="box__body">
                 <span className="box__sub eyebrow">{p.subtitle}</span>
                 <h3 className="box__title">{p.name}</h3>
@@ -90,7 +96,7 @@ export default function OrderPage() {
           {hasItems && (
             <>
               <ul className="cart__lines">
-                {LIST.filter((p) => qty[p.id] > 0).map((p) => (
+                {PRODUCT_LIST.filter((p) => qty[p.id] > 0).map((p) => (
                   <li key={p.id}>
                     <span>{qty[p.id]} × {p.name}</span>
                     <span className="display">AED {p.price * qty[p.id]}</span>

@@ -15,18 +15,20 @@ export default function Story() {
           <span className="eyebrow">The Experience</span>
           <h2>One thing. Done relentlessly well.</h2>
           <p>
-            Hand-trimmed racks, marinated for a full day in our signature honey BBQ and
-            roasted garlic herb blend, then seared hot over open flame. Charred crust,
-            tender pink centre — every single time.
+            It started with Mom's secret marinade. For over ten years she has been
+            marinating lamb chops in a blend she never wrote down, and her son would
+            carry them out to the desert to grill over open fire for the whole family.
           </p>
           <p>
-            Each box is packed in our signature matte black to land at your door exactly
-            the way it left the grill: hot, juicy, ready to eat the moment you open it.
+            Those nights around the flame became a homegrown business. The recipe never
+            changed: hand-trimmed racks, rested a full day in her marinade, seared hot
+            for a charred crust and a tender centre. Every box that leaves our kitchen
+            carries that story to your door.
           </p>
           <p className="story__rule">No dine-in. No distractions. Just chops, done right.</p>
 
           <div className="story__stats">
-            <div><strong className="display">24h</strong><span>marinade</span></div>
+            <div><strong className="display">10+ yrs</strong><span>secret recipe</span></div>
             <div><strong className="display">100%</strong><span>premium cuts</span></div>
             <div><strong className="display">1</strong><span>obsession</span></div>
           </div>

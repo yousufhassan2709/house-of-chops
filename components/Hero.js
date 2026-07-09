@@ -46,7 +46,7 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p variants={rise} className="hero__sub">
-            24-hour marinade <span aria-hidden="true">·</span> open flame{' '}
+            secret marinade <span aria-hidden="true">·</span> open flame{' '}
             <span aria-hidden="true">·</span> delivered hot.
           </motion.p>
 

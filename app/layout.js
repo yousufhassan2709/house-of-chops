@@ -4,10 +4,10 @@ export const metadata = {
   metadataBase: new URL('https://house-of-chops.vercel.app'),
   title: 'House of Chops — Premium Lamb Chops, Delivered',
   description:
-    'Dubai’s delivery-only lamb chop specialists. Marinated 24 hours, fired over open flame, packed to arrive hot. Order on WhatsApp.',
+    'Dubai’s delivery-only lamb chop specialists. A secret family marinade over ten years in the making, fired over open flame, packed to arrive hot. Order online across Dubai.',
   openGraph: {
     title: 'House of Chops — Premium Lamb Chops, Delivered',
-    description: 'Chops Only. That’s the House Rule. Order on WhatsApp across Dubai.',
+    description: 'Chops Only. That’s the House Rule. Order online across Dubai.',
     type: 'website',
     images: ['/images/hero.jpg'],
   },

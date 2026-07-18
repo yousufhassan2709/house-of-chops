@@ -1,12 +1,15 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { redirect } from 'next/navigation';
 import { PRODUCT_LIST, DELIVERY_FEE } from '@/lib/products';
 import { hasDeliveryLocation } from '@/lib/location';
+import { ORDERING_ENABLED } from '@/lib/data';
 import LocationPicker from '@/components/LocationPicker';
 
 const STORAGE_KEY = 'hoc_cart_v1';
 
 export default function OrderPage() {
+  if (!ORDERING_ENABLED) redirect('/');
   const [qty, setQty] = useState(() => Object.fromEntries(PRODUCT_LIST.map((p) => [p.id, 0])));
   const [customer, setCustomer] = useState({
     name: '', phone: '',

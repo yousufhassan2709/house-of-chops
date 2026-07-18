@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { SITE } from '@/lib/data';
+import { SITE, ORDERING_ENABLED } from '@/lib/data';
 
 const stagger = {
   hidden: {},
@@ -51,17 +51,27 @@ export default function Hero() {
           </motion.p>
 
           <motion.div variants={rise} className="hero__actions">
-            <a
-              href="/order"
-              className="btn btn-primary btn--magnetic"
-            >
-              <span>Order Now</span>
-              <span className="btn__icon" aria-hidden="true">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-                  <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+            {ORDERING_ENABLED ? (
+              <a
+                href="/order"
+                className="btn btn-primary btn--magnetic"
+              >
+                <span>Order Now</span>
+                <span className="btn__icon" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+                    <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </a>
+            ) : (
+              <span
+                className="btn btn-primary"
+                aria-disabled="true"
+                style={{ opacity: 0.65, cursor: 'default', pointerEvents: 'none' }}
+              >
+                Coming Soon
               </span>
-            </a>
+            )}
             <a href="#menu" className="btn btn-ghost">View the Menu</a>
           </motion.div>
 

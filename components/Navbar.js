@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { SITE } from '@/lib/data';
+import { SITE, ORDERING_ENABLED } from '@/lib/data';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -33,12 +33,18 @@ export default function Navbar() {
         </nav>
 
         <div className="nav__end">
-          <a
-            href="/order"
-            className="btn btn-primary nav__cta"
-          >
-            Order Now
-          </a>
+          {ORDERING_ENABLED ? (
+            <a
+              href="/order"
+              className="btn btn-primary nav__cta"
+            >
+              Order Now
+            </a>
+          ) : (
+            <span className="btn btn-primary nav__cta nav__cta--soon" aria-disabled="true">
+              Coming Soon
+            </span>
+          )}
 
           <a
             href={SITE.instagram}
@@ -71,13 +77,19 @@ export default function Navbar() {
         <a href="#menu" onClick={() => setOpen(false)}>Menu</a>
         <a href="#story" onClick={() => setOpen(false)}>Story</a>
         <a href="#contact" onClick={() => setOpen(false)}>Contact</a>
-        <a
-          href="/order"
-          className="btn btn-primary"
-          onClick={() => setOpen(false)}
-        >
-          Order Now
-        </a>
+        {ORDERING_ENABLED ? (
+          <a
+            href="/order"
+            className="btn btn-primary"
+            onClick={() => setOpen(false)}
+          >
+            Order Now
+          </a>
+        ) : (
+          <span className="btn btn-primary nav__cta--soon" aria-disabled="true">
+            Coming Soon
+          </span>
+        )}
       </div>
 
       <style jsx>{`
@@ -131,6 +143,12 @@ export default function Navbar() {
         .nav__links a:hover { color: var(--color-accent); }
 
         .nav__cta { display: none; }
+
+        .nav__cta--soon {
+          opacity: 0.65;
+          cursor: default;
+          pointer-events: none;
+        }
 
         /* Right-side group: IG icon sits immediately next to the hamburger */
         .nav__end {
@@ -200,7 +218,7 @@ export default function Navbar() {
           color: var(--color-foreground);
           padding: 8px 0;
         }
-        .nav__sheet a.btn {
+        .nav__sheet .btn {
           margin-top: 12px;
           font-family: var(--font-body);
           font-size: 0.98rem;

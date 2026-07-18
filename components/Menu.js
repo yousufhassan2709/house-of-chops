@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { MENU, SITE } from '@/lib/data';
+import { MENU, SITE, ORDERING_ENABLED } from '@/lib/data';
 
 export default function Menu() {
   return (
@@ -36,16 +36,22 @@ export default function Menu() {
                 <p className="card__desc">{item.desc}</p>
                 <div className="card__foot">
                   <span className="card__price display">{item.price}</span>
-                  <a
-                    href="/order"
-                    className="btn btn-ghost card__cta"
-                    aria-label={`Order the ${item.name}`}
-                  >
-                    Order
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
-                      <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </a>
+                  {ORDERING_ENABLED ? (
+                    <a
+                      href="/order"
+                      className="btn btn-ghost card__cta"
+                      aria-label={`Order the ${item.name}`}
+                    >
+                      Order
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <span className="btn btn-ghost card__cta card__cta--soon" aria-disabled="true">
+                      Coming Soon
+                    </span>
+                  )}
                 </div>
               </div>
             </motion.article>
@@ -55,9 +61,15 @@ export default function Menu() {
         <p className="menu__note">All prices inclusive of VAT. Fries + 2 sauces included with every box.</p>
 
         <div className="menu__cta">
-          <a href="/order" className="btn btn-primary">
-            Order Now
-          </a>
+          {ORDERING_ENABLED ? (
+            <a href="/order" className="btn btn-primary">
+              Order Now
+            </a>
+          ) : (
+            <span className="btn btn-primary card__cta--soon" aria-disabled="true">
+              Coming Soon
+            </span>
+          )}
         </div>
       </div>
 
@@ -152,6 +164,11 @@ export default function Menu() {
           min-height: 44px;
           padding: 10px 20px;
           font-size: 0.88rem;
+        }
+        .card__cta--soon {
+          opacity: 0.65;
+          cursor: default;
+          pointer-events: none;
         }
 
         .menu__note {

@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { SITE } from '@/lib/data';
+import { SITE, ORDERING_ENABLED } from '@/lib/data';
 
 export default function Contact() {
   return (
@@ -16,14 +16,28 @@ export default function Contact() {
           >
             <span className="eyebrow">Hungry yet?</span>
             <h2>Your chops are one tap away.</h2>
-            <p>Open daily across Dubai. Order now and we’ll fire them fresh.</p>
+            <p>
+              {ORDERING_ENABLED
+                ? 'Open daily across Dubai. Order now and we’ll fire them fresh.'
+                : 'Launching soon across Dubai. Follow us to be first in line.'}
+            </p>
             <div className="cta__actions">
-              <a
-                href="/order"
-                className="btn btn-primary"
-              >
-                Order Now
-              </a>
+              {ORDERING_ENABLED ? (
+                <a
+                  href="/order"
+                  className="btn btn-primary"
+                >
+                  Order Now
+                </a>
+              ) : (
+                <span
+                  className="btn btn-primary"
+                  aria-disabled="true"
+                  style={{ opacity: 0.65, cursor: 'default', pointerEvents: 'none' }}
+                >
+                  Coming Soon
+                </span>
+              )}
               <a
                 href={SITE.instagram}
                 target="_blank"
@@ -60,7 +74,7 @@ export default function Contact() {
           <nav className="footer__links" aria-label="Footer">
             <a href="#menu">Menu</a>
             <a href="#story">Story</a>
-            <a href="/order">Order</a>
+            {ORDERING_ENABLED && <a href="/order">Order</a>}
             <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
           </nav>
         </div>

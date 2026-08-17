@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { SITE, ORDERING_ENABLED } from '@/lib/data';
+import { SITE, ORDER_LINK } from '@/lib/data';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -33,18 +33,9 @@ export default function Navbar() {
         </nav>
 
         <div className="nav__end">
-          {ORDERING_ENABLED ? (
-            <a
-              href="/order"
-              className="btn btn-primary nav__cta"
-            >
-              Order Now
-            </a>
-          ) : (
-            <span className="btn btn-primary nav__cta nav__cta--soon" aria-disabled="true">
-              Coming Soon
-            </span>
-          )}
+          <a {...ORDER_LINK} className="btn btn-primary nav__cta">
+            Order Now
+          </a>
 
           <a
             href={SITE.instagram}
@@ -77,19 +68,13 @@ export default function Navbar() {
         <a href="#menu" onClick={() => setOpen(false)}>Menu</a>
         <a href="#story" onClick={() => setOpen(false)}>Story</a>
         <a href="#contact" onClick={() => setOpen(false)}>Contact</a>
-        {ORDERING_ENABLED ? (
-          <a
-            href="/order"
-            className="btn btn-primary"
-            onClick={() => setOpen(false)}
-          >
-            Order Now
-          </a>
-        ) : (
-          <span className="btn btn-primary nav__cta--soon" aria-disabled="true">
-            Coming Soon
-          </span>
-        )}
+        <a
+          {...ORDER_LINK}
+          className="btn btn-primary"
+          onClick={() => setOpen(false)}
+        >
+          Order Now
+        </a>
       </div>
 
       <style jsx>{`
@@ -143,12 +128,6 @@ export default function Navbar() {
         .nav__links a:hover { color: var(--color-accent); }
 
         .nav__cta { display: none; }
-
-        .nav__cta--soon {
-          opacity: 0.65;
-          cursor: default;
-          pointer-events: none;
-        }
 
         /* Right-side group: IG icon sits immediately next to the hamburger */
         .nav__end {

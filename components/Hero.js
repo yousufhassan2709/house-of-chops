@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { SITE, ORDER_LINK } from '@/lib/data';
+import OrderCta from './OrderCta';
 
 const stagger = {
   hidden: {},
@@ -51,14 +51,14 @@ export default function Hero() {
           </motion.p>
 
           <motion.div variants={rise} className="hero__actions">
-            <a {...ORDER_LINK} className="btn btn-primary btn--magnetic">
+            <OrderCta className="btn btn-primary btn--magnetic">
               <span>Order Now</span>
               <span className="btn__icon" aria-hidden="true">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
                   <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-            </a>
+            </OrderCta>
             <a href="#menu" className="btn btn-ghost">View the Menu</a>
           </motion.div>
 

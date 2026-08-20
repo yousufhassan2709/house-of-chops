@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
-import { MENU, SITE, ORDER_LINK } from '@/lib/data';
+import { MENU } from '@/lib/data';
+import OrderCta from './OrderCta';
 
 export default function Menu() {
   return (
@@ -36,8 +37,7 @@ export default function Menu() {
                 <p className="card__desc">{item.desc}</p>
                 <div className="card__foot">
                   <span className="card__price display">{item.price}</span>
-                  <a
-                    {...ORDER_LINK}
+                  <OrderCta
                     className="btn btn-ghost card__cta"
                     aria-label={`Order the ${item.name}`}
                   >
@@ -45,7 +45,7 @@ export default function Menu() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
                       <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                  </a>
+                  </OrderCta>
                 </div>
               </div>
             </motion.article>
@@ -55,9 +55,9 @@ export default function Menu() {
         <p className="menu__note">All prices inclusive of VAT. Chop dust fries or sweet potato with every box.</p>
 
         <div className="menu__cta">
-          <a {...ORDER_LINK} className="btn btn-primary">
+          <OrderCta className="btn btn-primary">
             Order Now
-          </a>
+          </OrderCta>
         </div>
       </div>
 
@@ -148,7 +148,7 @@ export default function Menu() {
           color: var(--color-accent);
           letter-spacing: 0.04em;
         }
-        .card__cta {
+        .card__foot :global(.card__cta) {
           min-height: 44px;
           padding: 10px 20px;
           font-size: 0.88rem;

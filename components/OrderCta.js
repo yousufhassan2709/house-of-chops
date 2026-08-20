@@ -19,6 +19,7 @@ export default function OrderCta({ className, children, onClick, ...rest }) {
   return (
     <button
       type="button"
+      aria-haspopup="dialog"
       className={className}
       onClick={(e) => {
         if (onClick) onClick(e);

@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
-import { SITE, ORDER_LINK } from '@/lib/data';
+import { SITE } from '@/lib/data';
+import OrderCta from './OrderCta';
 
 export default function Contact() {
   return (
@@ -18,9 +19,9 @@ export default function Contact() {
             <h2>Your chops are one tap away.</h2>
             <p>Open daily across Dubai. Order now and we’ll fire them fresh.</p>
             <div className="cta__actions">
-              <a {...ORDER_LINK} className="btn btn-primary">
+              <OrderCta className="btn btn-primary">
                 Order Now
-              </a>
+              </OrderCta>
               <a
                 href={SITE.instagram}
                 target="_blank"
@@ -57,7 +58,7 @@ export default function Contact() {
           <nav className="footer__links" aria-label="Footer">
             <a href="#menu">Menu</a>
             <a href="#story">Story</a>
-            <a {...ORDER_LINK}>Order</a>
+            <OrderCta>Order</OrderCta>
             <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
           </nav>
         </div>
@@ -103,12 +104,12 @@ export default function Contact() {
           flex-wrap: wrap;
           justify-content: center;
         }
-        .footer__links a {
+        .footer__links a, .footer__links :global(button) {
           color: var(--color-foreground-soft);
           font-size: 0.92rem;
           transition: color 0.2s var(--ease);
         }
-        .footer__links a:hover { color: var(--color-accent); }
+        .footer__links a:hover, .footer__links :global(button):hover { color: var(--color-accent); }
         .footer__base {
           display: flex;
           flex-direction: column;

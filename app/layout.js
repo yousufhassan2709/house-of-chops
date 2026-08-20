@@ -1,4 +1,5 @@
 import './globals.css';
+import { BranchPickerProvider } from '@/components/BranchPicker';
 
 export const metadata = {
   metadataBase: new URL('https://house-of-chops.vercel.app'),
@@ -29,7 +30,9 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <BranchPickerProvider>{children}</BranchPickerProvider>
+      </body>
     </html>
   );
 }

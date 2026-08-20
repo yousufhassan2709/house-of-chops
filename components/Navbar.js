@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { SITE, ORDER_LINK } from '@/lib/data';
+import { SITE } from '@/lib/data';
+import OrderCta from './OrderCta';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -33,9 +34,9 @@ export default function Navbar() {
         </nav>
 
         <div className="nav__end">
-          <a {...ORDER_LINK} className="btn btn-primary nav__cta">
+          <OrderCta className="btn btn-primary nav__cta">
             Order Now
-          </a>
+          </OrderCta>
 
           <a
             href={SITE.instagram}
@@ -68,13 +69,9 @@ export default function Navbar() {
         <a href="#menu" onClick={() => setOpen(false)}>Menu</a>
         <a href="#story" onClick={() => setOpen(false)}>Story</a>
         <a href="#contact" onClick={() => setOpen(false)}>Contact</a>
-        <a
-          {...ORDER_LINK}
-          className="btn btn-primary"
-          onClick={() => setOpen(false)}
-        >
+        <OrderCta className="btn btn-primary" onClick={() => setOpen(false)}>
           Order Now
-        </a>
+        </OrderCta>
       </div>
 
       <style jsx>{`
@@ -127,7 +124,7 @@ export default function Navbar() {
         }
         .nav__links a:hover { color: var(--color-accent); }
 
-        .nav__cta { display: none; }
+        :global(.nav__cta) { display: none; }
 
         /* Right-side group: IG icon sits immediately next to the hamburger */
         .nav__end {
@@ -197,7 +194,7 @@ export default function Navbar() {
           color: var(--color-foreground);
           padding: 8px 0;
         }
-        .nav__sheet .btn {
+        .nav__sheet :global(.btn) {
           margin-top: 12px;
           font-family: var(--font-body);
           font-size: 0.98rem;
@@ -209,7 +206,7 @@ export default function Navbar() {
 
         @media (min-width: 860px) {
           .nav__links { display: flex; }
-          .nav__cta { display: inline-flex; }
+          :global(.nav__cta) { display: inline-flex; }
           .nav__burger { display: none; }
           .nav__sheet { display: none; }
         }

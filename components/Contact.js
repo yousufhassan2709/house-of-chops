@@ -58,7 +58,7 @@ export default function Contact() {
           <nav className="footer__links" aria-label="Footer">
             <a href="#menu">Menu</a>
             <a href="#story">Story</a>
-            <OrderCta>Order</OrderCta>
+            <OrderCta className="footer__link">Order</OrderCta>
             <a href={SITE.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
           </nav>
         </div>
@@ -104,12 +104,12 @@ export default function Contact() {
           flex-wrap: wrap;
           justify-content: center;
         }
-        .footer__links a, .footer__links :global(button) {
+        .footer__links a, .footer__links :global(.footer__link) {
           color: var(--color-foreground-soft);
           font-size: 0.92rem;
           transition: color 0.2s var(--ease);
         }
-        .footer__links a:hover, .footer__links :global(button):hover { color: var(--color-accent); }
+        .footer__links a:hover, .footer__links :global(.footer__link):hover { color: var(--color-accent); }
         .footer__base {
           display: flex;
           flex-direction: column;

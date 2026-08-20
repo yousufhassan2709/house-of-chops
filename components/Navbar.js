@@ -124,7 +124,7 @@ export default function Navbar() {
         }
         .nav__links a:hover { color: var(--color-accent); }
 
-        :global(.nav__cta) { display: none; }
+        .nav__end :global(.nav__cta) { display: none; }
 
         /* Right-side group: IG icon sits immediately next to the hamburger */
         .nav__end {
@@ -206,7 +206,7 @@ export default function Navbar() {
 
         @media (min-width: 860px) {
           .nav__links { display: flex; }
-          :global(.nav__cta) { display: inline-flex; }
+          .nav__end :global(.nav__cta) { display: inline-flex; }
           .nav__burger { display: none; }
           .nav__sheet { display: none; }
         }

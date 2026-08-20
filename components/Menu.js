@@ -148,7 +148,7 @@ export default function Menu() {
           color: var(--color-accent);
           letter-spacing: 0.04em;
         }
-        :global(.card__cta) {
+        .card__foot :global(.card__cta) {
           min-height: 44px;
           padding: 10px 20px;
           font-size: 0.88rem;

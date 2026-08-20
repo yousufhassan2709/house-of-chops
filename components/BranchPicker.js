@@ -45,7 +45,12 @@ function BranchPickerModal({ onClose }) {
     // getCurrentPosition's own timeout only starts counting once the user
     // answers the permission prompt, so an ignored prompt would otherwise
     // leave the "locating" hint up forever — this wall-clock timer bounds it.
-    const fallback = setTimeout(() => setLocating(false), 8000);
+    // It also cancels detection outright: a fix arriving after the hint is
+    // gone must not silently reorder the cards under the customer's finger.
+    const fallback = setTimeout(() => {
+      cancelled = true;
+      setLocating(false);
+    }, 8000);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         if (cancelled) return;
@@ -226,6 +231,9 @@ function BranchPickerModal({ onClose }) {
         }
         .bp__badge {
           align-self: flex-start;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
           margin-top: 5px;
           padding: 5px 10px;
           border-radius: 999px;

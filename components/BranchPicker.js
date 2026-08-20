@@ -115,10 +115,10 @@ function BranchPickerModal({ onClose }) {
               <span className="bp__meta">
                 <span className="bp__name">{b.name}</span>
                 <span className="bp__area">{b.area} · Deliveroo</span>
+                {detected && i === 0 && (
+                  <span className="bp__badge">Nearest to you · {b.distanceKm.toFixed(1)} km</span>
+                )}
               </span>
-              {detected && i === 0 && (
-                <span className="bp__badge">Nearest to you · {b.distanceKm.toFixed(1)} km</span>
-              )}
               <svg className="bp__arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -225,6 +225,8 @@ function BranchPickerModal({ onClose }) {
           font-size: 0.82rem;
         }
         .bp__badge {
+          align-self: flex-start;
+          margin-top: 5px;
           padding: 5px 10px;
           border-radius: 999px;
           background: var(--color-accent);

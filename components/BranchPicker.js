@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { BRANCHES } from '@/lib/data';
 import { branchesByDistance } from '@/lib/location';
 
@@ -26,6 +26,13 @@ export function BranchPickerProvider({ children }) {
 function BranchPickerModal({ onClose }) {
   const [branches, setBranches] = useState(BRANCHES);
   const [locating, setLocating] = useState(true);
+  const panelRef = useRef(null);
+
+  useEffect(() => {
+    const prev = document.activeElement;
+    panelRef.current?.focus();
+    return () => prev?.focus?.();
+  }, []);
 
   // Ask for location the moment the picker opens — never earlier. The cards
   // are clickable throughout; detection only re-orders and badges them.
@@ -35,6 +42,10 @@ function BranchPickerModal({ onClose }) {
       return;
     }
     let cancelled = false;
+    // getCurrentPosition's own timeout only starts counting once the user
+    // answers the permission prompt, so an ignored prompt would otherwise
+    // leave the "locating" hint up forever — this wall-clock timer bounds it.
+    const fallback = setTimeout(() => setLocating(false), 8000);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         if (cancelled) return;
@@ -48,6 +59,7 @@ function BranchPickerModal({ onClose }) {
     );
     return () => {
       cancelled = true;
+      clearTimeout(fallback);
     };
   }, []);
 
@@ -56,6 +68,9 @@ function BranchPickerModal({ onClose }) {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', onKey);
+    // Navbar's mobile sheet also writes body overflow but mounts/cleans up
+    // before this modal does, so last-cleanup-wins works out — don't assume
+    // that ordering is guaranteed if either component's lifecycle changes.
     document.body.style.overflow = 'hidden';
     return () => {
       window.removeEventListener('keydown', onKey);
@@ -72,6 +87,8 @@ function BranchPickerModal({ onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label="Choose your branch"
+        ref={panelRef}
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="bp__head">
@@ -83,7 +100,7 @@ function BranchPickerModal({ onClose }) {
           </button>
         </div>
 
-        {locating && <p className="bp__hint">Finding your nearest branch…</p>}
+        <p className="bp__hint" aria-live="polite">{locating ? 'Finding your nearest branch…' : ''}</p>
 
         <div className="bp__list">
           {branches.map((b, i) => (
@@ -93,7 +110,7 @@ function BranchPickerModal({ onClose }) {
               href={b.deliverooUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={onClose}
+              onClick={() => setTimeout(onClose, 0)}
             >
               <span className="bp__meta">
                 <span className="bp__name">{b.name}</span>
@@ -159,9 +176,14 @@ function BranchPickerModal({ onClose }) {
           color: var(--color-accent);
           background: rgba(200, 135, 58, 0.08);
         }
+        .bp__close:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 2px;
+        }
         .bp__hint {
           color: var(--color-muted);
           font-size: 0.85rem;
+          min-height: 1.2em;
         }
         .bp__list {
           display: flex;
@@ -181,6 +203,10 @@ function BranchPickerModal({ onClose }) {
         .bp__card:hover {
           border-color: var(--color-accent);
           transform: translateY(-2px);
+        }
+        .bp__card:focus-visible {
+          outline: 2px solid var(--color-accent);
+          outline-offset: 2px;
         }
         .bp__meta {
           display: flex;

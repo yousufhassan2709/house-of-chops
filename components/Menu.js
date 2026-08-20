@@ -9,7 +9,7 @@ export default function Menu() {
         <div className="menu__head">
           <span className="eyebrow">The Menu</span>
           <h2>Pick your box.</h2>
-          <p>Every box is fired to order and packed to travel. Fries and two dipping sauces included.</p>
+          <p>Every box is fired to order and packed to travel. Seasoned fries included.</p>
         </div>
 
         <div className="menu__grid">
@@ -52,7 +52,7 @@ export default function Menu() {
           ))}
         </div>
 
-        <p className="menu__note">All prices inclusive of VAT. Fries + 2 sauces included with every box.</p>
+        <p className="menu__note">All prices inclusive of VAT. Fries included with every box.</p>
 
         <div className="menu__cta">
           <a {...ORDER_LINK} className="btn btn-primary">

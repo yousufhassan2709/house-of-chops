@@ -7,6 +7,13 @@ import { branchesByDistance } from '@/lib/location';
 // in the root layout. The context value is just "open the picker".
 const BranchPickerContext = createContext(() => {});
 
+// How long detection may run before the picker gives up and settles as a plain
+// list. This must comfortably cover a human noticing and answering the browser's
+// location prompt: Chrome counts prompt-wait time against getCurrentPosition's
+// `timeout` (Safari doesn't), so a short value like 6s expired while Chrome's
+// prompt was still open and detection silently "never worked" there.
+const DETECTION_TIMEOUT_MS = 20000;
+
 export function useBranchPicker() {
   return useContext(BranchPickerContext);
 }
@@ -42,15 +49,15 @@ function BranchPickerModal({ onClose }) {
       return;
     }
     let cancelled = false;
-    // getCurrentPosition's own timeout only starts counting once the user
-    // answers the permission prompt, so an ignored prompt would otherwise
-    // leave the "locating" hint up forever — this wall-clock timer bounds it.
-    // It also cancels detection outright: a fix arriving after the hint is
-    // gone must not silently reorder the cards under the customer's finger.
+    // Wall-clock bound on the whole attempt (prompt + fix). Browsers disagree on
+    // whether getCurrentPosition's `timeout` includes prompt time, so this timer
+    // is the one source of truth: when it fires, the hint clears and detection
+    // is cancelled outright — a fix arriving afterwards must not silently
+    // reorder the cards under the customer's finger.
     const fallback = setTimeout(() => {
       cancelled = true;
       setLocating(false);
-    }, 8000);
+    }, DETECTION_TIMEOUT_MS);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         if (cancelled) return;
@@ -60,7 +67,7 @@ function BranchPickerModal({ onClose }) {
       () => {
         if (!cancelled) setLocating(false);
       },
-      { timeout: 6000, maximumAge: 300000 },
+      { timeout: DETECTION_TIMEOUT_MS, maximumAge: 300000 },
     );
     return () => {
       cancelled = true;

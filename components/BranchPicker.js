@@ -119,14 +119,14 @@ function BranchPickerModal({ onClose }) {
             <a
               key={b.id}
               className="bp__card"
-              href={b.deliverooUrl}
+              href={b.orderUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setTimeout(onClose, 0)}
             >
               <span className="bp__meta">
                 <span className="bp__name">{b.name}</span>
-                <span className="bp__area">{b.area} · Deliveroo</span>
+                <span className="bp__area">{b.area} · {b.platform}</span>
                 {detected && i === 0 && (
                   <span className="bp__badge">Nearest to you · {b.distanceKm.toFixed(1)} km</span>
                 )}

@@ -1,6 +1,7 @@
 import './globals.css';
 import { BranchPickerProvider } from '@/components/BranchPicker';
 import GoldDust from '@/components/GoldDust';
+import StyledJsxRegistry from '@/components/StyledJsxRegistry';
 
 export const metadata = {
   metadataBase: new URL('https://house-of-chops.vercel.app'),
@@ -33,7 +34,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <GoldDust />
-        <BranchPickerProvider>{children}</BranchPickerProvider>
+        <StyledJsxRegistry>
+          <BranchPickerProvider>{children}</BranchPickerProvider>
+        </StyledJsxRegistry>
       </body>
     </html>
   );

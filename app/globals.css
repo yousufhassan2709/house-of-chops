@@ -563,7 +563,7 @@ section { position: relative; }
 @media (min-width: 760px) {
   .cta { padding: 96px 0; }
   .cta__panel { padding: 64px 56px; }
-  .cta__info { grid-template-columns: repeat(3, 1fr); }
+  .cta__info { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 1024px) {
   .cta { padding: 120px 0; }

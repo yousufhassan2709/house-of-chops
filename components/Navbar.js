@@ -1,11 +1,15 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { SITE } from '@/lib/data';
 import OrderCta from './OrderCta';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  // Desktop: the three section links live behind one control instead of
+  // sitting across the bar. Mobile keeps the full-height sheet.
+  const [navOpen, setNavOpen] = useState(false);
+  const navRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -19,19 +23,46 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [open]);
 
+  useEffect(() => {
+    if (!navOpen) return;
+    const away = (e) => { if (!navRef.current?.contains(e.target)) setNavOpen(false); };
+    const esc = (e) => { if (e.key === 'Escape') setNavOpen(false); };
+    window.addEventListener('pointerdown', away);
+    window.addEventListener('keydown', esc);
+    return () => {
+      window.removeEventListener('pointerdown', away);
+      window.removeEventListener('keydown', esc);
+    };
+  }, [navOpen]);
+
   return (
     <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="container nav__inner">
         <a href="#top" className="nav__brand" aria-label="House of Chops home">
-          <img src="/images/logo.png" alt="" width="72" height="72" />
+          <img src="/images/logo.png" alt="" width="72" height="72" className="chop-kick" />
           <span className="nav__wordmark display">House of Chops</span>
         </a>
 
-        <nav className="nav__links" aria-label="Primary">
-          <a href="#menu">Menu</a>
-          <a href="#story">Story</a>
-          <a href="#contact">Contact</a>
-        </nav>
+        <div className="nav__nav" ref={navRef}>
+          <button
+            type="button"
+            className={`nav__trigger ${navOpen ? 'nav__trigger--open' : ''}`}
+            aria-haspopup="menu"
+            aria-expanded={navOpen}
+            onClick={() => setNavOpen((v) => !v)}
+          >
+            Explore
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor"
+              strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M2 3.5L5 6.5L8 3.5" />
+            </svg>
+          </button>
+          <nav className={`nav__drop ${navOpen ? 'nav__drop--open' : ''}`} aria-label="Primary">
+            <a href="#menu" onClick={() => setNavOpen(false)}>Menu</a>
+            <a href="#story" onClick={() => setNavOpen(false)}>Story</a>
+            <a href="#contact" onClick={() => setNavOpen(false)}>Contact</a>
+          </nav>
+        </div>
 
         <div className="nav__end">
           <OrderCta className="btn btn-primary nav__cta">
@@ -75,19 +106,59 @@ export default function Navbar() {
       </div>
 
       <style jsx>{`
+        /* The bar is lit rather than filled: a standing wash of Flame Gold
+           across the top, and a single low-opacity highlight that drifts the
+           full width of it on a slow loop. Both stay under 10% so the bar
+           still reads as near-black — it should look like brushed metal
+           catching light, not like a glowing strip. */
         .nav {
           position: fixed;
           top: 0; left: 0; right: 0;
           z-index: 50;
-          padding: 14px 0;
-          background: #020101;
-          border-bottom: 1px solid transparent;
-          transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+          padding: 10px 0;
+          background:
+            linear-gradient(180deg, rgba(200, 135, 58, 0.075), rgba(200, 135, 58, 0.02) 62%, rgba(200, 135, 58, 0) 100%),
+            #020101;
+          transition: padding 0.3s var(--ease), background 0.3s var(--ease);
         }
-        .nav--scrolled {
-          border-bottom-color: var(--color-border-soft);
-          box-shadow: 0 12px 28px -16px rgba(0, 0, 0, 0.6);
+        .nav::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-image: linear-gradient(
+            100deg,
+            rgba(200, 135, 58, 0) 34%,
+            rgba(200, 135, 58, 0.07) 44%,
+            rgba(232, 190, 124, 0.11) 50%,
+            rgba(200, 135, 58, 0.07) 56%,
+            rgba(200, 135, 58, 0) 66%
+          );
+          background-size: 260% 100%;
+          animation: navSweep 9s linear infinite;
         }
+        @keyframes navSweep {
+          0%   { background-position: 130% 0; }
+          100% { background-position: -30% 0; }
+        }
+        /* The bottom edge is the same gold, brightest in the middle — it
+           replaces the grey hairline and the drop shadow, which were two
+           pieces of furniture doing one job. */
+        .nav::after {
+          content: "";
+          position: absolute;
+          left: 0; right: 0; bottom: 0;
+          height: 1px;
+          pointer-events: none;
+          opacity: 0;
+          background: linear-gradient(90deg,
+            rgba(200, 135, 58, 0) 0%,
+            rgba(200, 135, 58, 0.55) 50%,
+            rgba(200, 135, 58, 0) 100%);
+          transition: opacity 0.35s var(--ease);
+        }
+        .nav--scrolled::after { opacity: 1; }
+        .nav--scrolled { padding: 6px 0; }
         .nav__inner {
           display: flex;
           align-items: center;
@@ -97,32 +168,80 @@ export default function Navbar() {
         .nav__brand {
           display: flex;
           align-items: center;
-          gap: 12px;
-          min-height: 52px;
+          gap: 11px;
+          min-height: 46px;
         }
         .nav__brand img {
-          width: 58px;
-          height: 58px;
+          width: 46px;
+          height: 46px;
           object-fit: contain;
           filter: drop-shadow(0 4px 14px rgba(200, 135, 58, 0.35));
         }
         .nav__wordmark {
-          font-size: 1.05rem;
-          letter-spacing: 0.14em;
+          font-size: 0.98rem;
+          letter-spacing: 0.16em;
           color: var(--color-foreground);
           text-transform: uppercase;
+          white-space: nowrap;
+        }
+        /* On the narrowest phones the mark alone carries the brand — the
+           wordmark was what made the bar feel crowded. */
+        @media (max-width: 430px) {
+          .nav__wordmark { display: none; }
         }
 
-        .nav__links {
-          display: none;
-          gap: 32px;
-        }
-        .nav__links a {
+        /* One control instead of three links. The bar carries the brand, a
+           way in, and the order button — nothing else earns the space. */
+        .nav__nav { display: none; position: relative; }
+        .nav__trigger {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          height: 38px;
+          padding: 0 16px;
+          border-radius: 999px;
+          border: 1px solid transparent;
           font-size: 0.95rem;
           color: var(--color-foreground-soft);
-          transition: color 0.2s var(--ease);
+          transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
         }
-        .nav__links a:hover { color: var(--color-accent); }
+        .nav__trigger:hover { color: var(--color-accent); }
+        .nav__trigger svg { opacity: 0.6; transition: transform 0.25s var(--ease); }
+        .nav__trigger--open {
+          color: var(--color-accent);
+          border-color: rgba(200, 135, 58, 0.28);
+          background: rgba(200, 135, 58, 0.06);
+        }
+        .nav__trigger--open svg { transform: rotate(180deg); }
+
+        .nav__drop {
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 0;
+          min-width: 170px;
+          display: flex;
+          flex-direction: column;
+          padding: 6px;
+          border-radius: 14px;
+          border: 1px solid rgba(200, 135, 58, 0.18);
+          background: rgba(6, 4, 3, 0.97);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          box-shadow: 0 22px 46px -18px rgba(0, 0, 0, 0.9);
+          opacity: 0;
+          transform: translateY(-6px);
+          pointer-events: none;
+          transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+        }
+        .nav__drop--open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .nav__drop a {
+          padding: 9px 14px;
+          border-radius: 9px;
+          font-size: 0.92rem;
+          color: var(--color-foreground-soft);
+          transition: color 0.18s var(--ease), background 0.18s var(--ease);
+        }
+        .nav__drop a:hover { color: var(--color-accent); background: rgba(200, 135, 58, 0.08); }
 
         .nav__end :global(.nav__cta) { display: none; }
 
@@ -170,7 +289,8 @@ export default function Navbar() {
 
         .nav__sheet {
           position: fixed;
-          inset: 80px 0 0 0;
+          /* Sits directly under the slimmed bar (10px + 46px + 10px). */
+          inset: 66px 0 0 0;
           background: rgba(0, 0, 0, 0.96);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
@@ -205,7 +325,7 @@ export default function Navbar() {
         }
 
         @media (min-width: 860px) {
-          .nav__links { display: flex; }
+          .nav__nav { display: block; }
           .nav__end :global(.nav__cta) { display: inline-flex; }
           .nav__burger { display: none; }
           .nav__sheet { display: none; }

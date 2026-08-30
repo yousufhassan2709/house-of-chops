@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { SITE } from '@/lib/data';
 import OrderCta from './OrderCta';
+import Newsletter from './Newsletter';
 
 export default function Contact() {
   return (
@@ -12,11 +13,18 @@ export default function Contact() {
             className="cta__panel"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="eyebrow">Hungry yet?</span>
-            <h2>Your chops are one tap away.</h2>
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.8 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <span className="eyebrow">Hungry yet?</span>
+              <h2>Your chops are one tap away.</h2>
+            </motion.div>
             <p>Open daily across Dubai. Order now and we’ll fire them fresh.</p>
             <div className="cta__actions">
               <OrderCta className="btn btn-primary">
@@ -40,19 +48,17 @@ export default function Contact() {
                 <span>Service</span>
                 <strong>Delivery only · {SITE.city}</strong>
               </div>
-              <div>
-                <span>Call</span>
-                <strong>{SITE.phone}</strong>
-              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
+      <Newsletter />
+
       <footer className="footer">
         <div className="container footer__inner">
           <div className="footer__brand">
-            <img src="/images/logo.png" alt="House of Chops" width="120" height="120" />
+            <img src="/images/logo.png" alt="House of Chops" width="120" height="120" className="chop-kick" />
             <p className="footer__tagline">{SITE.tagline}</p>
           </div>
           <nav className="footer__links" aria-label="Footer">

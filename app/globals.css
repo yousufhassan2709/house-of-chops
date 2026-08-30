@@ -44,15 +44,26 @@ body {
 }
 
 /* subtle atmospheric backdrop — only for non-hero sections */
+/* The black base is never quite still: the two pools of warmth drift against
+   each other on a slow, uneven cycle (38s against 61s, so they never repeat
+   the same arrangement twice in a sitting). It is far too slow to watch and
+   that is the point — it stops the page reading as a flat black rectangle. */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -12%;
   z-index: -2;
   background:
     radial-gradient(900px 600px at 78% -8%, rgba(200, 135, 58, 0.10), transparent 60%),
     radial-gradient(700px 500px at 8% 108%, rgba(161, 108, 38, 0.08), transparent 55%);
   pointer-events: none;
+  animation: baseDrift 61s ease-in-out infinite;
+}
+@keyframes baseDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  33%  { transform: translate3d(2.5%, -1.5%, 0) scale(1.06); }
+  66%  { transform: translate3d(-2%, 2%, 0) scale(1.03); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
 }
 body::after {
   content: "";
@@ -453,8 +464,8 @@ section { position: relative; }
 .story__stats {
   display: flex;
   justify-content: center;
-  gap: 36px;
-  margin-top: 36px;
+  gap: 30px 52px;
+  margin-top: 44px;
   flex-wrap: wrap;
 }
 .story__stats > div {
@@ -463,16 +474,20 @@ section { position: relative; }
   align-items: center;
 }
 .story__stats strong {
-  font-size: 2.2rem;
+  font-size: clamp(2.6rem, 6vw, 3.4rem);
   color: var(--color-accent);
-  line-height: 1;
+  line-height: 0.95;
+  letter-spacing: 0.03em;
 }
-.story__stats span {
-  font-size: 0.74rem;
-  letter-spacing: 0.18em;
+/* Direct child only. The figure itself is a <span> inside the <strong> (it
+   counts up), and an unscoped `.story__stats span` was catching it too —
+   which is what rendered the numbers at label size instead of display size. */
+.story__stats > div > span {
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--color-muted);
-  margin-top: 8px;
+  margin-top: 12px;
 }
 @media (min-width: 1024px) {
   .story { padding: 120px 0; }
@@ -565,4 +580,95 @@ section { position: relative; }
     padding-left: max(20px, env(safe-area-inset-left));
     padding-right: max(20px, env(safe-area-inset-right));
   }
+}
+
+/* ═══ GOLD ══════════════════════════════════════════════════════════════
+   Flame Gold already sets the palette; these give it motion. One light
+   source, used three ways — a slow sweep through the bar, a glare across
+   the prices, and a kick when someone touches the chop. Everything here is
+   low-opacity and slow on purpose: the site should look lit, not animated.
+   The reduced-motion rule above switches all of it off. */
+
+/* A glare travelling through numerals — every figure on the site that is
+   already gold: the menu prices, the order total, the story stats.
+   The gradient sits at the brand accent for most of its length and lifts only
+   briefly, one shade, as the highlight passes. It is deliberately dim: a
+   price someone reads twice a visit should catch the light once, not pulse at
+   them. The long period matters as much as the low peak — at five seconds it
+   was a blink you noticed; at nine it is something you half-see. */
+@keyframes goldGlare {
+  0%   { background-position: 140% 0; }
+  100% { background-position: -40% 0; }
+}
+.gold-glare {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-accent) 0%,
+    var(--color-accent) 40%,
+    #D9A860 47%,
+    #EBCB94 50%,
+    #D9A860 53%,
+    var(--color-accent) 60%,
+    var(--color-accent) 100%
+  );
+  background-size: 300% 100%;
+  background-position: 40% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: goldGlare 9s linear infinite;
+}
+
+/* The chop kicks. It pivots around the meat end rather than its centre, so
+   the bone swings — a shrug, not a spin. Used on the logo wherever it
+   appears: the bar, the footer, anywhere else it turns up later. */
+@keyframes chopKick {
+  0%   { transform: rotate(0deg)    translateY(0)    scale(1); }
+  26%  { transform: rotate(-8deg)   translateY(-4px) scale(1.045); }
+  52%  { transform: rotate(5.5deg)  translateY(-1px) scale(1.02); }
+  76%  { transform: rotate(-2.5deg) translateY(0)    scale(1.008); }
+  100% { transform: rotate(0deg)    translateY(0)    scale(1); }
+}
+.chop-kick {
+  transform-origin: 62% 74%;
+  transition: filter 0.3s var(--ease);
+  will-change: transform;
+}
+.chop-kick:hover,
+.chop-kick:focus-visible {
+  animation: chopKick 0.62s var(--ease);
+  filter: drop-shadow(0 6px 20px rgba(200, 135, 58, 0.55));
+}
+.chop-kick:active { animation: chopKick 0.42s var(--ease); }
+
+
+/* ═══ GOLD DUST ═════════════════════════════════════════════════════════
+   Embers drifting up behind the page. Every mote animates transform and
+   opacity only, so the whole field lives on the compositor and costs the
+   main thread nothing while the page scrolls. */
+.dust {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.dust span {
+  position: absolute;
+  bottom: -6vh;
+  border-radius: 50%;
+  background: radial-gradient(circle, #EBCB94 0%, #C8873A 55%, rgba(200, 135, 58, 0) 72%);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: dustRise var(--dur) linear var(--delay) infinite;
+}
+/* Fades in off the bottom edge and out before the top, so no mote is ever
+   seen to pop into existence or clip against an edge. */
+@keyframes dustRise {
+  0%   { transform: translate3d(0, 0, 0);                        opacity: 0; }
+  12%  { opacity: var(--peak); }
+  50%  { transform: translate3d(var(--drift), -58vh, 0); }
+  85%  { opacity: var(--peak); }
+  100% { transform: translate3d(calc(var(--drift) * -0.4), -116vh, 0); opacity: 0; }
 }

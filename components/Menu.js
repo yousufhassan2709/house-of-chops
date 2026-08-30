@@ -8,9 +8,16 @@ export default function Menu() {
     <section id="menu" className="menu">
       <div className="container">
         <div className="menu__head">
-          <span className="eyebrow">The Menu</span>
-          <h2>Pick your box.</h2>
-          <p>Every box is fired to order and packed to travel. Served with our chop dust fries or sweet potato.</p>
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="eyebrow">The Menu</span>
+            <h2>Pick your box.</h2>
+            <p>Every box is fired to order and packed to travel. Served with our chop dust fries or sweet potato.</p>
+          </motion.div>
         </div>
 
         <div className="menu__grid">
@@ -18,10 +25,10 @@ export default function Menu() {
             <motion.article
               key={item.name}
               className="card"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: 34, scale: 0.955 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
             >
               <div
                 className="card__media"
@@ -29,6 +36,10 @@ export default function Menu() {
                 aria-label={`${item.name} — ${item.subtitle}`}
                 style={{ backgroundImage: `url(${item.image})` }}
               >
+                {/* The glare crosses the photo as the card lands, and again on
+                    hover. It is a single soft band on a diagonal — the light
+                    moving over the picture, not a flash on top of it. */}
+                <span className="card__shine" aria-hidden="true" />
                 {item.tag && <span className="card__tag display">{item.tag}</span>}
               </div>
               <div className="card__body">
@@ -36,7 +47,7 @@ export default function Menu() {
                 <h3 className="card__title">{item.name}</h3>
                 <p className="card__desc">{item.desc}</p>
                 <div className="card__foot">
-                  <span className="card__price display">{item.price}</span>
+                  <span className="card__price display gold-glare">{item.price}</span>
                   <OrderCta
                     className="btn btn-ghost card__cta"
                     aria-label={`Order the ${item.name}`}
@@ -88,11 +99,11 @@ export default function Menu() {
           border: 1px solid var(--color-border);
           border-radius: var(--radius-lg);
           overflow: hidden;
-          transition: transform 0.35s var(--ease), border-color 0.35s var(--ease);
+          transition: border-color 0.35s var(--ease);
           display: flex;
           flex-direction: column;
         }
-        .card:hover { transform: translateY(-4px); border-color: var(--color-accent); }
+        .card:hover { border-color: var(--color-accent); }
 
         .card__media {
           position: relative;
@@ -101,16 +112,50 @@ export default function Menu() {
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
+          overflow: hidden;
+          transition: transform 0.6s var(--ease);
         }
-        .card__tag {
-          position: absolute; top: 14px; left: 14px;
-          padding: 6px 12px;
-          border-radius: 999px;
-          background: var(--color-accent);
-          color: #1A1206;
-          font-size: 0.78rem;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
+        .card:hover .card__media { transform: scale(1.035); }
+
+        /* Light moving across the photo, not a bar drawn on top of it.
+           Three things make it read as light: it is blended into the picture
+           with screen rather than laid over it, it is blurred wide enough to
+           have no edge, and it carries the brand's gold rather than plain
+           white — a white wipe on a dark food photo looks like a scanner. */
+        .card__shine {
+          position: absolute;
+          top: -50%;
+          left: 0;
+          width: 62%;
+          height: 200%;
+          pointer-events: none;
+          mix-blend-mode: screen;
+          background: linear-gradient(
+            100deg,
+            rgba(200, 135, 58, 0) 0%,
+            rgba(200, 135, 58, 0.06) 30%,
+            rgba(232, 190, 124, 0.16) 45%,
+            rgba(255, 243, 222, 0.22) 50%,
+            rgba(232, 190, 124, 0.16) 55%,
+            rgba(200, 135, 58, 0.06) 70%,
+            rgba(200, 135, 58, 0) 100%
+          );
+          filter: blur(10px);
+          rotate: 18deg;
+        }
+        /* Always moving, never hurrying: the sweep takes a third of the cycle
+           and the band rests off-frame for the rest, so each photo catches the
+           light every few seconds instead of strobing. The two cards are
+           offset so the menu does not pulse in unison. */
+        .card__shine {
+          animation: cardGleam 11s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        }
+        .menu__grid > :nth-child(even) .card__shine { animation-delay: -5.5s; }
+        .card:hover .card__shine { animation-duration: 6s; }
+        @keyframes cardGleam {
+          0%   { transform: translateX(-170%); }
+          32%  { transform: translateX(170%); }
+          100% { transform: translateX(170%); }
         }
 
         .card__body {

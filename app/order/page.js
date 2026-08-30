@@ -82,7 +82,7 @@ export default function OrderPage() {
               <div className="box__body">
                 <span className="box__sub eyebrow">{p.subtitle}</span>
                 <h3 className="box__title">{p.name}</h3>
-                <span className="box__price display">AED {p.price}</span>
+                <span className="box__price display gold-glare">AED {p.price}</span>
                 <div className="stepper">
                   <button onClick={() => step(p.id, -1)} aria-label={`Remove one ${p.name}`}>−</button>
                   <span className="display">{qty[p.id] || 0}</span>
@@ -108,7 +108,7 @@ export default function OrderPage() {
               </ul>
               <div className="cart__row"><span>Subtotal</span><span className="display">AED {subtotal}</span></div>
               <div className="cart__row"><span>Delivery</span><span className="display">AED {DELIVERY_FEE}</span></div>
-              <div className="cart__row cart__row--total"><span>Total</span><span className="display">AED {total}</span></div>
+              <div className="cart__row cart__row--total"><span>Total</span><span className="display gold-glare">AED {total}</span></div>
 
               <div className="fields">
                 <input placeholder="Full name" value={customer.name}
